@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Factory - Game Design Document</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.5);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(107, 114, 128, 0.8);
+        }
+        .image-zone {
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+        .image-zone:hover {
+            border-color: #0284c7;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 font-sans transition-colors duration-200 antialiased min-h-screen flex flex-col text-base">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <!-- Brand Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20">
+                    <i class="fa-solid fa-ship text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl leading-tight tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>Card Factory</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 font-semibold border border-sky-200 dark:border-sky-800">GDD v3.0</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Cargo & Container Logistics Puzzle</p>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="gddSearch" placeholder="Search GDD sections... (Press '/' to focus)" 
+                       class="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+            </div>
+
+            <!-- Global Controls: Lang Switch & Dark Mode -->
+            <div class="flex items-center space-x-3">
+                <!-- Language Toggle Button -->
+                <div class="bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center text-xs font-semibold">
+                    <button id="langEngBtn" onclick="setLanguage('en')" class="px-3 py-1.5 rounded-md transition-all bg-sky-600 text-white shadow-sm">
+                        🇬🇧 ENG
+                    </button>
+                    <button id="langViBtn" onclick="setLanguage('vi')" class="px-3 py-1.5 rounded-md transition-all text-slate-600 dark:text-slate-300 hover:text-sky-600">
+                        🇻🇳 VIE
+                    </button>
+                </div>
+
+                <!-- Dark Mode Toggle -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-sky-600 transition-colors">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                </button>
+
+                <!-- Mobile Navigation Toggle -->
+                <button onclick="toggleMobileNav()" class="lg:hidden p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 flex gap-8 w-full">
+        
+        <!-- Sidebar Navigation (Table of Contents) -->
+        <aside id="sidebarNav" class="hidden lg:block w-72 flex-shrink-0 sticky top-24 h-[calc(100vh-7rem)] overflow-y-auto pr-2">
+            <nav class="space-y-6 text-sm">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3" data-en="Table of Contents" data-vi="Mục Lục NộI Dung">Table of Contents</h3>
+                    <ul class="space-y-1.5 border-l-2 border-slate-200 dark:border-slate-800 pl-3">
+                        <li><a href="#overview" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="1. Gameplay Overview" data-vi="1. Tổng Quan Lối Chơi">1. Gameplay Overview</a></li>
+                        <li><a href="#core-mechanics" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="2. Core Game Mechanics" data-vi="2. Cơ Chế Chơi Chính">2. Core Game Mechanics</a></li>
+                        <li><a href="#special-elements" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="3. Special Puzzle Elements" data-vi="3. Các Phần Tử Đặc Biệt">3. Special Puzzle Elements</a></li>
+                        <li><a href="#boosters" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="4. Boosters & Power-ups" data-vi="4. Vật Phẩm Bổ Trợ (Boosters)">4. Boosters & Power-ups</a></li>
+                        <li><a href="#ftue" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="5. FTUE & Tutorial System" data-vi="5. Hướng Dẫn Người Chơi Mới">5. FTUE & Tutorial System</a></li>
+                        <li><a href="#object-animation" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="6. Object Set & Animation" data-vi="6. Bộ Vật Thể & Chuyển Động">6. Object Set & Animation</a></li>
+                        <li><a href="#audio-haptics" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="7. SFX & Haptics Spec" data-vi="7. Âm Thanh & Rung Feedback">7. SFX & Haptics Spec</a></li>
+                        <li><a href="#remote-config" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="8. Remote Config & Economy" data-vi="8. Cấu Hình Từ Xa & Kinh Tế">8. Remote Config & Economy</a></li>
+                        <li><a href="#level-config" class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors" data-en="9. Level Configuration Schema" data-vi="9. Cấu Trúc File Màn Chơi (JSON)">9. Level Configuration Schema</a></li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-sky-50 dark:bg-sky-950/40 rounded-xl border border-sky-100 dark:border-sky-900/50">
+                    <div class="text-xs font-bold text-sky-800 dark:text-sky-300 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-info"></i> <span data-en="Image Link Note" data-vi="Lưu Ý Hình Ảnh">Image Link Note</span>
+                    </div>
+                    <p class="text-xs text-sky-700/80 dark:text-sky-400 leading-relaxed" data-en="Image zones are formatted cleanly for replacing image links directly in HTML or pasting URLs." data-vi="Các ô hình ảnh được định dạng sẵn để dễ dàng thay link ảnh trực tiếp trong HTML hoặc dán URL.">
+                        Image zones are formatted cleanly for replacing image links directly in HTML or pasting URLs.
+                    </p>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main GDD Content Container -->
+        <main class="flex-1 max-w-4xl space-y-16 overflow-hidden">
+
+            <!-- SECTION 1: GAMEPLAY OVERVIEW -->
+            <section id="overview" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 01" data-vi="Phần 01">Section 01</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="Gameplay Overview" data-vi="Tổng Quan Lối Chơi">Gameplay Overview</h2>
+                </div>
+
+                <!-- Summary Badges -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+                        <div class="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
+                            <i class="fa-solid fa-puzzle-piece text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 block font-medium" data-en="Genre" data-vi="Thể loại">Genre</span>
+                            <span class="text-sm font-semibold text-slate-900 dark:text-slate-100" data-en="Sorting Puzzle / Stack Clear" data-vi="Giải Đố Phân Loại Container">Sorting Puzzle / Stack Clear</span>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+                        <div class="p-3 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400">
+                            <i class="fa-solid fa-ship text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 block font-medium" data-en="Theme" data-vi="Chủ đề">Theme</span>
+                            <span class="text-sm font-semibold text-slate-900 dark:text-slate-100" data-en="Ship & Container Logistics" data-vi="Vận Tải Container Tàu Biển">Ship & Container Logistics</span>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+                        <div class="p-3 rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400">
+                            <i class="fa-solid fa-bullseye text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 block font-medium" data-en="Core Objective" data-vi="Mục tiêu chính">Core Objective</span>
+                            <span class="text-sm font-semibold text-slate-900 dark:text-slate-100" data-en="Match Goods & Pack Containers" data-vi="Ghép Hàng & Đóng Container">Match Goods & Pack Containers</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- High Level Description -->
+                <div class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 leading-relaxed space-y-3 text-base">
+                    <p data-en="● Goods Stack (Card Factory) is a spatial sorting puzzle game where players untangle stacked layers of colored cargo containers to completely clear the ship's deck."
+                       data-vi="● Goods Stack (Card Factory) là game giải đố phân loại không gian, nơi người chơi tháo gỡ các chồng thùng container màu sắc để dọn sạch boong tàu biển.">
+                       ● Goods Stack (Card Factory) is a spatial sorting puzzle game where players untangle stacked layers of colored cargo containers to completely clear the ship's deck.
+                    </p>
+                    <p data-en="● By dispatching containers to the parking slots and directing cardboard box items onto conveyor tracks, players match products with corresponding colored containers to complete shipment orders."
+                       data-vi="● Bằng cách chuyển container vào ô đỗ và đưa các thùng hàng carton lên băng chuyền, người chơi ghép các sản phẩm phù hợp vào container cùng màu để hoàn thành đơn hàng.">
+                       ● By dispatching containers to the parking slots and directing cardboard box items onto conveyor tracks, players match products with corresponding colored containers to complete shipment orders.
+                    </p>
+                    <p data-en="● The game emphasizes logical sequence planning—selecting the correct dispatch order of containers prevents parking slot congestion and conveyor jam states."
+                       data-vi="● Trò chơi đòi hỏi tư duy tính toán thứ tự logic—chọn đúng trình tự di chuyển container giúp tránh bị tắc nghẽn ô đỗ và dồn hàng trên băng chuyền.">
+                       ● The game emphasizes logical sequence planning—selecting the correct dispatch order of containers prevents parking slot congestion and conveyor jam states.
+                    </p>
+                </div>
+
+                <!-- EMPTY IMAGE ZONE: OVERVIEW DIAGRAM -->
+                <div class="image-zone my-6 p-4 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl bg-slate-100/60 dark:bg-slate-800/40 text-center relative">
+                    <!-- IMAGE PLACEHOLDER: Replace src below with your image link -->
+                    <img src="Overview.jpg" alt="Overview Concept Diagram" >
+                    
+                </div>
+
+                <!-- Core Loop Visual Flow -->
+                <div class="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right text-sky-500"></i>
+                        <span data-en="Core Gameplay Loop" data-vi="Vòng Lặp Lối Chơi Chính (Core Loop)">Core Gameplay Loop</span>
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-center text-xs font-semibold">
+                        <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600">
+                            <i class="fa-solid fa-gamepad text-sky-500 text-2xl mb-2 block"></i>
+                            <span data-en="Play Stage Level" data-vi="Chơi Màn Game">Play Stage Level</span>
+                        </div>
+                        
+                        <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300">
+                            <i class="fa-solid fa-trophy text-emerald-500 text-2xl mb-2 block"></i>
+                            <span data-en="Win Level ➔ Earn Coins" data-vi="Thắng Màn ➔ Nhận Tiền Xu">Win Level ➔ Earn Coins</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 text-indigo-800 dark:text-indigo-300">
+                            <i class="fa-solid fa-forward-step text-indigo-500 text-2xl mb-2 block"></i>
+                            <span data-en="Advance to Next Stage" data-vi="Sang Màn Tiếp Theo">Advance to Next Stage</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/50 text-rose-800 dark:text-rose-300">
+                            <i class="fa-solid fa-skull-crossbones text-rose-500 text-2xl mb-2 block"></i>
+                            <span data-en="Fail Stage ➔ Revive / Retry" data-vi="Thất Bại ➔ Hồi Sinh / Chơi Lại">Fail Stage ➔ Revive / Retry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Win / Lose Conditions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Win Condition -->
+                    <div class="p-5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/60 space-y-3">
+                        <div class="flex items-center gap-2 text-emerald-800 dark:text-emerald-400 font-bold text-base">
+                            <i class="fa-solid fa-circle-check text-xl"></i>
+                            <h4 data-en="Victory Condition" data-vi="Điều Kiện Chiến Thắng">Victory Condition</h4>
+                        </div>
+                        <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                            <li data-en="The level is won when ALL CONTAINERS on the board have been fully packed and dispatched." data-vi="Thắng màn chơi khi TẤT CẢ CONTAINER trên bàn cờ đã được đóng đủ hàng và vận chuyển thành công.">The level is won when ALL CONTAINERS on the board have been fully packed and dispatched.</li>
+                            <li data-en="Upon victory, awards player with coin rewards based on performance." data-vi="Khi thắng, thưởng cho người chơi Tiền xu (Coins) dựa trên thành tích.">Upon victory, awards player with coin rewards based on performance.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Lose Condition -->
+                    <div class="p-5 rounded-2xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 space-y-3">
+                        <div class="flex items-center gap-2 text-rose-800 dark:text-rose-400 font-bold text-base">
+                            <i class="fa-solid fa-circle-xmark text-xl"></i>
+                            <h4 data-en="Defeat Condition (Slot Gridlock)" data-vi="Điều Kiện Thất Bại (Kẹt Ô Đỗ)">Defeat Condition (Slot Gridlock)</h4>
+                        </div>
+                        <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                            <li data-en="Occurs when all open Parking Slots are occupied by incomplete containers, and the conveyor belt shelf space is completely filled." data-vi="Xảy ra khi tất cả các Ô Đỗ đều bị chiếm bởi container chưa hoàn thành, đồng thời băng chuyền đã hết chỗ chứa.">Occurs when all open Parking Slots are occupied by incomplete containers, and the conveyor belt shelf space is completely filled.</li>
+                            <li data-en="If no further moves can unpack items or free a slot, a Game-Over popup appears." data-vi="Nếu không thể tiếp tục giải phóng hàng hóa hoặc mở trống ô đỗ, bảng Thất Bại sẽ xuất hiện.">If no further moves can unpack items or free a slot, a Game-Over popup appears.</li>
+                        </ul>
+                        <!-- Highlighted Revive Note -->
+                        <div class="p-3 bg-amber-100 dark:bg-amber-950/60 rounded-xl border border-amber-300 dark:border-amber-800 text-xs font-semibold text-amber-900 dark:text-amber-200 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-amber-600"></i>
+                            <span data-en="REVIVE MECHANIC: Revive option triggers a FREE Wood Container Booster (Item Vacuum) to clear 8 items from the conveyor belt!"
+                                  data-vi="CƠ CHẾ HỒI SINH: Tùy chọn Hồi sinh sẽ kích hoạt miễn phí Booster Thùng Gỗ Hút Hàng để dọn 8 món khỏi băng chuyền!">
+                                REVIVE MECHANIC: Revive option triggers a FREE Wood Container Booster (Item Vacuum) to clear 8 items from the conveyor belt!
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: CORE GAME MECHANICS -->
+            <section id="core-mechanics" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 02" data-vi="Phần 02">Section 02</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="Core Game Mechanics" data-vi="Cơ Chế Chơi Chính">Core Game Mechanics</h2>
+                </div>
+
+                <!-- Element 1: Colored Containers -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-sky-500 text-white text-sm flex items-center justify-center font-bold">1</span>
+                        <span data-en="Colored Containers & Multi-Layer Board" data-vi="Thùng Container Màu & Bàn Cờ Nối Tầng">Colored Containers & Multi-Layer Board</span>
+                    </h3>
+
+                    <!-- State A & State B Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- State A -->
+                        <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                                    <h4 class="font-bold text-sky-600 dark:text-sky-400 text-base" data-en="State A: Puzzle Board Layout" data-vi="Trạng Thái A: Xếp Trên Bàn Cờ">State A: Puzzle Board Layout</h4>
+                                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 font-mono text-slate-600 dark:text-slate-300">3D Stack</span>
+                                </div>
+                                
+                                <ul class="text-sm space-y-2.5 text-slate-700 dark:text-slate-300 leading-relaxed">
+                                    <li><strong class="text-slate-900 dark:text-slate-100" data-en="3D Multi-Layer Layout:" data-vi="Xếp Chồng 3D:">3D Multi-Layer Layout:</strong> <span data-en="Containers are arranged in overlapping 3D geometric configurations (crosses, elevated platforms)." data-vi="Container được xếp đè lên nhau theo cấu trúc hình học 3D (chữ thập, tầng đan xen).">Containers are arranged in overlapping 3D geometric configurations (crosses, elevated platforms).</span></li>
+                                    <li><strong class="text-slate-900 dark:text-slate-100" data-en="Occlusion & Lock System:" data-vi="Khóa & Che Khuất:">Occlusion & Lock System:</strong> <span data-en="Unblocked top containers automatically open lids to reveal contents. Blocked containers underneath cannot be tapped." data-vi="Container trên cùng không bị đè sẽ tự động mở nắp lộ hàng. Container bị đè ở dưới sẽ bị khóa không thể chọn.">Unblocked top containers automatically open lids to reveal contents. Blocked containers underneath cannot be tapped.</span></li>
+                                    <li><strong class="text-slate-900 dark:text-slate-100" data-en="Selection & Transfer (Left-to-Right):" data-vi="Chọn & Chuyển (Trái Sang Phải):">Selection & Transfer (Left-to-Right):</strong> <span class="text-sky-600 dark:text-sky-400 font-semibold" data-en="Tapping an unblocked container animates it sliding into the FIRST AVAILABLE parking slot from left to right." data-vi="Chạm vào container đang mở sẽ chạy hiệu ứng trượt vào Ô ĐỖ KHẢ DỤNG ĐẦU TIÊN từ trái sang phải.">Tapping an unblocked container animates it sliding into the FIRST AVAILABLE parking slot from left to right.</span></li>
+                                </ul>
+                            </div>
+
+                            <!-- Image Zone State A -->
+                            <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="StateA.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                        </div>
+
+                        <!-- State B -->
+                        <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                                    <h4 class="font-bold text-sky-600 dark:text-sky-400 text-base" data-en="State B: Parking Slots & Processing" data-vi="Trạng Thái B: Ô Đỗ & Đóng Gói">State B: Parking Slots & Processing</h4>
+                                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 font-mono text-slate-600 dark:text-slate-300">Staging Area</span>
+                                </div>
+                                
+                                <ul class="text-sm space-y-2.5 text-slate-700 dark:text-slate-300 leading-relaxed">
+                                    <li><strong class="text-slate-900 dark:text-slate-100" data-en="Parking Slot Staging:" data-vi="Khu Vực Ô Đỗ:">Parking Slot Staging:</strong> <span data-en="Buffer line with 4 default parking slots (+1 extra slot unlockable via Rewarded Ad)." data-vi="Dãy ô chờ gồm 4 ô đỗ mặc định (+1 ô bổ sung mở bằng xem quảng cáo).">Buffer line with 4 default parking slots (+1 extra slot unlockable via Rewarded Ad).</span></li>
+                                    <li><strong class="text-slate-900 dark:text-slate-100" data-en="Auto-Unpack Mechanism:" data-vi="Tự Động Mở Thùng:">Auto-Unpack Mechanism:</strong> <span data-en="When container arrives, non-matching cardboard box items fly up onto the conveyor belt track." data-vi="Khi container tới ô đỗ, các món hàng không khớp màu sẽ tự động bay lên băng chuyền.">When container arrives, non-matching cardboard box items fly up onto the conveyor belt track.</span></li>
+                                    <li><strong class="text-slate-900 dark:text-slate-100" data-en="Item Matching & Completion:" data-vi="Ghép Hàng & Hoàn Thành:">Item Matching & Completion:</strong> <span data-en="Items on belt matching container color fly inside. Reaching capacity seals container and frees parking slot." data-vi="Hàng cùng màu trên băng chuyền tự bay vào container. Đủ số lượng container sẽ đóng nắp và giải phóng ô đỗ.">Items on belt matching container color fly inside. Reaching capacity seals container and frees parking slot.</span></li>
+                                </ul>
+                            </div>
+
+                            <!-- Image Zone State B -->
+                            <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="StateB.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conveyor Belt Track & Speed Up -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                    <!-- Conveyor Belt -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                                <i class="fa-solid fa-conveyor-belt text-sky-500"></i>
+                                <span data-en="Conveyor Belt Track" data-vi="Băng Chuyền Chứa Hàng">Conveyor Belt Track</span>
+                            </h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed" data-en="Stores loose cardboard box items extracted from containers. Each level specifies a strict item capacity limit on the track." data-vi="Chứa các món hàng rời được tháo ra từ container. Mỗi màn chơi quy định giới hạn sức chứa tối đa riêng trên băng chuyền.">
+                                Stores loose cardboard box items extracted from containers. Each level specifies a strict item capacity limit on the track.
+                            </p>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Belt.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Speed-Up Feature -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                                <i class="fa-solid fa-gauge-high text-amber-500"></i>
+                                <span data-en="Speed-Up Feature (2x)" data-vi="Tính Năng Tăng Tốc (2x)">Speed-Up Feature (2x)</span>
+                            </h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed" data-en="Toggleable 2x game speed feature. Multiplies conveyor belt scroll velocity and item/container move animations." data-vi="Cho phép người chơi bật chế độ 2x. Gấp đôi tốc độ cuộn băng chuyền và hiệu ứng di chuyển container / hàng hóa.">
+                                Toggleable 2x game speed feature. Multiplies conveyor belt scroll velocity and item/container move animations.
+                            </p>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Speedup.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+                </div>
+
+                <!-- Wood Container Sub-Mechanic -->
+                <div class="p-5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 space-y-3">
+                    <h4 class="font-bold text-amber-900 dark:text-amber-300 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-box-archive text-amber-600"></i>
+                        <span data-en="Wood Container Sub-Mechanic (Spare Crate)" data-vi="Cơ Chế Container Gỗ Phụ (Wood Container)">Wood Container Sub-Mechanic (Spare Crate)</span>
+                    </h4>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed" 
+                       data-en="A static wooden container placed on the puzzle board containing a pre-set stack of cardboard box items. Unlike standard color containers that remain on the board as empty frame structures, a Wood Container automatically SHATTERS AND DISAPPEARS from the board state as soon as its last item is dispatched onto the conveyor belt."
+                       data-vi="Là container gỗ cố định trên bàn cờ chứa sẵn một xấp thùng hàng carton. Khác với container màu thông thường giữ lại khung rỗng trên bàn cờ, Container Gỗ sẽ TỰ ĐỘNG VỠ VÀ BIẾN MẤT HOÀN TOÀN ngay khi món hàng cuối cùng của nó bay lên băng chuyền.">
+                        A static wooden container placed on the puzzle board containing a pre-set stack of cardboard box items. Unlike standard color containers that remain on the board as empty frame structures, a Wood Container automatically SHATTERS AND DISAPPEARS from the board state as soon as its last item is dispatched onto the conveyor belt.
+                    </p>
+                    <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="WoodContainer.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: SPECIAL PUZZLE ELEMENTS -->
+            <section id="special-elements" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 03" data-vi="Phần 03">Section 03</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="Special Puzzle Elements" data-vi="Các Phần Tử Đặc Biệt">Special Puzzle Elements</h2>
+                </div>
+
+                <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed" data-en="Special elements introduce sequence challenges and dynamic tactical depth to higher level stages." data-vi="Các phần tử đặc biệt mang lại thử thách thứ tự và độ sâu chiến thuật ở những màn chơi nâng cao.">
+                    Special elements introduce sequence challenges and dynamic tactical depth to higher level stages.
+                </p>
+
+                <!-- 4 Key Elements Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Element 1: Rainbow Container -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-500 to-indigo-500 text-white flex items-center justify-center text-xl shadow-md mb-2">
+                                🌈
+                            </div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Rainbow Container" data-vi="Container Bảy Sắc Cầu Vồng">Rainbow Container</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"
+                               data-en="Conceals true target color under a rainbow wrapper while blocked. Once fully unblocked, permanently reveals true color and acts as standard container."
+                               data-vi="Che giấu màu thật dưới lớp vỏ 7 màu khi bị đè. Ngay khi được mở hoàn toàn, container hiện màu thật và hoạt động bình thường.">
+                                Conceals true target color under a rainbow wrapper while blocked. Once fully unblocked, permanently reveals true color and acts as standard container.
+                            </p>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="rainbow.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Element 2: Ship Door Spawner -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center text-xl shadow-md mb-2">
+                                🚢
+                            </div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Ship Door Spawner" data-vi="Cửa Hầm Tàu (Spawner)">Ship Door Spawner</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"
+                               data-en="Fixed ship portal containing queued container stack with counter UI. When exit container is dispatched, counter decrements by -1 and spawns next container."
+                               data-vi="Cửa hầm tàu cố định chứa hàng chờ container kèm bảng đếm số. Khi container ở cửa được chuyển đi, máy đếm giảm -1 và đẩy container tiếp theo ra.">
+                                Fixed ship portal containing queued container stack with counter UI. When exit container is dispatched, counter decrements by -1 and spawns next container.
+                            </p>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="spawner.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Element 3: Frozen Container -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center text-xl shadow-md mb-2">
+                                🧊
+                            </div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Frozen Container" data-vi="Container Đóng Băng">Frozen Container</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"
+                               data-en="Encased in ice block with countdown value K. While unblocked, dispatching ANY other container on board decrements K by -1. Reaching 0 shatters ice."
+                               data-vi="Bị đóng trong khối băng với con số đếm K. Khi không bị đè, mỗi khi bạn gửi CONTAINER KHÁC vào ô đỗ, K giảm -1. Đạt 0 sẽ vỡ băng.">
+                                Encased in ice block with countdown value K. While unblocked, dispatching ANY other container on board decrements K by -1. Reaching 0 shatters ice.
+                            </p>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="frozencontainer.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Element 4: Locked Slot -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl shadow-md mb-2">
+                                🔒
+                            </div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Locked Slot" data-vi="Ô Đỗ Bị Khóa (Locked Slot)">Locked Slot</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"
+                               data-en="Parking slot disabled at start with countdown S. Dispatching any colored container to an open slot decrements S by -1. Reaching 0 removes lock into an empty slot."
+                               data-vi="Ô đỗ bị khóa từ đầu màn với con số đếm S. Mỗi khi gửi container màu vào ô đỗ trống, S giảm -1. Khi S đạt 0, ô đỗ mở khóa thành ô trống bình thường.">
+                                Parking slot disabled at start with countdown S. Dispatching any container to an open slot decrements S by -1. Reaching 0 removes lock into an empty slot.
+                            </p>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="lockedslot.png" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 4: BOOSTERS -->
+            <section id="boosters" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 04" data-vi="Phần 04">Section 04</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="Boosters & Power-ups" data-vi="Vật Phẩm Bổ Trợ (Boosters)">Boosters & Power-ups</h2>
+                </div>
+
+                <div class="space-y-6">
+                    
+                    <!-- Booster 1: Wood Container Vacuum -->
+                    <div class="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-xl">
+                                    📦
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 dark:text-white text-base" data-en="Booster 1: Wood Container Vacuum" data-vi="Booster 1: Container Gỗ Hút Hàng">Booster 1: Wood Container Vacuum</h3>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400" data-en="Conveyor Belt Clearer & Defeat Revive Mechanism" data-vi="Cứu nguy Băng Chuyền & Cơ chế Hồi Sinh">Conveyor Belt Clearer & Defeat Revive Mechanism</span>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200">
+                                Anti-Softlock Power
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700 dark:text-slate-300">
+                            <div>
+                                <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1" data-en="Behavior & Extraction:" data-vi="Cách Thức Hoạt Động:">Behavior & Extraction:</h5>
+                                <p data-en="Scans items on conveyor track, extracts up to 8 items, and stacks them into a newly spawned Wood Container below the conveyor (without consuming parking slots)."
+                                   data-vi="Quét các món hàng trên băng chuyền, hút tối đa 8 món và tự tạo một Container Gỗ mới ngay dưới băng chuyền (không tốn ô đỗ).">
+                                    Scans items on conveyor track, extracts up to 8 items, and stacks them into a newly spawned Wood Container below the conveyor (without consuming parking slots).
+                                </p>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1" data-en="Sorting Priority & Conditions:" data-vi="Ưu Tiên & Điều Kiện:">Sorting Priority & Conditions:</h5>
+                                <p data-en="Groups items by matching color first. Requires at least 1 item on belt. Automatically prompts as FREE REVIVE option upon jam state defeat."
+                                   data-vi="Gom nhóm các món cùng màu trước. Bắt buộc có ít nhất 1 món trên băng chuyền. Tự động gợi ý dùng làm HỒI SINH MIỄN PHÍ khi kẹt bãi.">
+                                    Groups items by matching color first. Requires at least 1 item on belt. Automatically prompts as FREE REVIVE option upon jam state defeat.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Demo.jpg" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Booster 2: Magnet -->
+                    <div class="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center font-bold text-xl">
+                                    🧲
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 dark:text-white text-base" data-en="Booster 2: Magnet Pull" data-vi="Booster 2: Nam Châm Hút Hàng">Booster 2: Magnet Pull</h3>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400" data-en="Targets Largest Parking Container" data-vi="Chọn Container Lớn Nhất Trong Ô Đỗ">Targets Largest Parking Container</span>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-900 dark:bg-red-900/50 dark:text-red-200">
+                                Target Biggest Parking Container
+                            </span>
+                        </div>
+
+                        <div class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                            <p class="font-semibold text-sky-600 dark:text-sky-400" 
+                               data-en="● Target Selection Logic: Automatically selects the BIGGEST container currently sitting in the Parking Slots (the container with the largest total item capacity)."
+                               data-vi="● Quy Tắc Chọn Mục Tiêu: Tự động chọn CONTAINER LỚN NHẤT đang có trong các Ô Đỗ (container có sức chứa món hàng lớn nhất).">
+                               ● Target Selection Logic: Automatically selects the BIGGEST container currently sitting in the Parking Slots (the container with the largest total item capacity).
+                            </p>
+                            
+                            <div class="p-4 bg-slate-100 dark:bg-slate-900/70 rounded-xl space-y-1.5 font-mono text-xs">
+                                <div class="text-slate-900 dark:text-slate-100 font-bold" data-en="Resource Acquisition Hierarchy (Fills R required items):" data-vi="Thứ Tự Ưu Tiên Thu Gom (Hút đủ R món cần thiết):">Resource Acquisition Hierarchy (Fills R required items):</div>
+                                <div class="text-sky-600 dark:text-sky-400">1. Priority 1 (Conveyor): Extract items directly from conveyor belt track & queue.</div>
+                                <div class="text-emerald-600 dark:text-emerald-400">2. Priority 2 (Active Board): Extract items from unblocked containers on the board stack.</div>
+                                <div class="text-amber-600 dark:text-amber-400">3. Priority 3 (Deep Fallback): Penetrates Blocked Containers, Rainbow Masks, Spawners & Frozen Ice layers.</div>
+                            </div>
+                        </div>
+
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Demo.jpg" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Booster 3: Crane Grabber -->
+                    <div class="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-xl">
+                                    🏗️
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 dark:text-white text-base" data-en="Booster 3: Crane Grabber & Swap" data-vi="Booster 3: Cẩu Gắp Container & Hoán Đổi">Booster 3: Crane Grabber & Swap</h3>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400" data-en="Board Stack Container Target Only" data-vi="Chỉ Gắp Container Trên Bàn Cờ">Board Stack Container Target Only</span>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-900 dark:bg-purple-900/50 dark:text-purple-200">
+                                Board Stack Target Exclusive
+                            </span>
+                        </div>
+
+                        <div class="text-sm text-slate-700 dark:text-slate-300 space-y-3 leading-relaxed">
+                            <p class="font-semibold text-purple-600 dark:text-purple-400"
+                               data-en="● Target Constraint: Allows player to tap to select any unblocked container ONLY FROM THE PUZZLE BOARD STACK (containers in parking slots CANNOT be selected)."
+                               data-vi="● Giới Hạn Mục Tiêu: Cho phép người chơi chọn container mở CHỈ TỪ CHỒNG CONTAINER TRÊN BÀN CỜ (KHÔNG chọn container đang ở trong ô đỗ).">
+                                ● Target Constraint: Allows player to tap to select any unblocked container ONLY FROM THE PUZZLE BOARD STACK (containers in parking slots CANNOT be selected).
+                            </p>
+                            <p data-en="● Smart Cardboard Box Swapping: If target container T contains mismatched items of Color D, pulling Color C items from source container S triggers a 1-to-1 swap, transferring Color D items back to source S to conserve total level items."
+                               data-vi="● Hoán Đổi Hàng Thông Minh: Nếu container T đang chứa món nhầm màu D, khi hút món màu C từ container Nguồn S, trò chơi sẽ chuyển ngược món màu D về lại container S để bảo toàn tổng số lượng món hàng.">
+                                ● Smart Cardboard Box Swapping: If target container T contains mismatched items of Color D, pulling Color C items from source container S triggers a 1-to-1 swap, transferring Color D items back to source S to conserve total level items.
+                            </p>
+                        </div>
+
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Demo.jpg" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 5: FTUE & TUTORIAL SYSTEM -->
+            <section id="ftue" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 05" data-vi="Phần 05">Section 05</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="FTUE & Tutorial System" data-vi="Hướng Dẫn Người Chơi Mới (FTUE)">FTUE & Tutorial System</h2>
+                </div>
+
+                <div class="prose dark:prose-invert max-w-none text-sm text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
+                    <p data-en="● Input Masking: Translucent overlay blocks invalid screen touches, forcing player to tap highlighted target elements while HUD buttons remain accessible."
+                       data-vi="● Phủ Mờ Lớp Màn (Input Masking): Màn hình mờ chặn các thao tác chạm sai, bắt buộc người chơi chạm đúng vào container được chỉ định.">
+                       ● Input Masking: Translucent overlay blocks invalid screen touches, forcing player to tap highlighted target elements while HUD buttons remain accessible.
+                    </p>
+                    <p data-en="● Tutorial State Machine: Step progresses strictly upon fulfilling step completion requirement. Key milestones save progress across app reboots."
+                       data-vi="● Quản Lý Trạng Thái (State Machine): Chỉ chuyển bước khi người chơi hoàn thành đúng yêu cầu. Các mốc chính sẽ tự lưu tiến trình.">
+                       ● Tutorial State Machine: Step progresses strictly upon fulfilling step completion requirement. Key milestones save progress across app reboots.
+                    </p>
+                </div>
+
+                <!-- FTUE Sequence Table -->
+                <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-800">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 dark:bg-slate-700/60 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-200 dark:border-slate-700">
+                                <th class="p-3.5">Step</th>
+                                <th class="p-3.5" data-en="Name / Trigger" data-vi="Tên / Kích Hoạt">Name / Trigger</th>
+                                <th class="p-3.5" data-en="Save Progress" data-vi="Lưu Tiến Trình">Save Progress</th>
+                                <th class="p-3.5" data-en="Completion Requirement" data-vi="Yêu Cầu Hoàn Thành">Completion Requirement</th>
+                                <th class="p-3.5" data-en="Bubble Content" data-vi="Nội Dung Bong Bóng">Bubble Content</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50 text-slate-700 dark:text-slate-300">
+                            <tr>
+                                <td class="p-3.5 font-mono font-bold">1</td>
+                                <td class="p-3.5">Loading Scene</td>
+                                <td class="p-3.5"><span class="text-slate-400">No</span></td>
+                                <td class="p-3.5">Load into level 1 environment</td>
+                                <td class="p-3.5 text-slate-400">None</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/40">
+                                <td class="p-3.5 font-mono font-bold">2</td>
+                                <td class="p-3.5">Terms & Privacy Popup</td>
+                                <td class="p-3.5"><span class="text-emerald-600 font-bold">Yes</span></td>
+                                <td class="p-3.5">Player clicks "Agree"</td>
+                                <td class="p-3.5 text-slate-400">None</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-mono font-bold">3</td>
+                                <td class="p-3.5">Send Container 1</td>
+                                <td class="p-3.5"><span class="text-slate-400">No</span></td>
+                                <td class="p-3.5">Tap highlighted top container</td>
+                                <td class="p-3.5 font-semibold text-sky-600 dark:text-sky-400">"Tap to send BOX"</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/40">
+                                <td class="p-3.5 font-mono font-bold">4</td>
+                                <td class="p-3.5">Send Container 2</td>
+                                <td class="p-3.5"><span class="text-slate-400">No</span></td>
+                                <td class="p-3.5">Tap second highlighted container</td>
+                                <td class="p-3.5 font-semibold text-sky-600 dark:text-sky-400">"Tap to send BOX"</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-mono font-bold">5</td>
+                                <td class="p-3.5">Observe Matching</td>
+                                <td class="p-3.5"><span class="text-slate-400">No</span></td>
+                                <td class="p-3.5">Items fly into container & clear</td>
+                                <td class="p-3.5 font-semibold text-amber-600 dark:text-amber-400">"Fill boxes with MATCHING GOODS to clear it"</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/40">
+                                <td class="p-3.5 font-mono font-bold">6</td>
+                                <td class="p-3.5">Complete Level 1</td>
+                                <td class="p-3.5"><span class="text-emerald-600 font-bold">Yes</span></td>
+                                <td class="p-3.5">Finish packing all level 1 containers</td>
+                                <td class="p-3.5 text-slate-400">None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 6: OBJECT SET & ANIMATION -->
+            <section id="object-animation" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 06" data-vi="Phần 06">Section 06</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="Object Set & Animation Specs" data-vi="Bộ Vật Thể & Quy Chuẩn Chuyển Động">Object Set & Animation Specs</h2>
+                </div>
+
+                <!-- Centralized Color System Subsection -->
+                <div class="p-5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-900/60 space-y-3">
+                    <h3 class="font-bold text-indigo-900 dark:text-indigo-300 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-palette text-indigo-600"></i>
+                        <span data-en="Color Palette & Tier Scheme (8 Color Set)" data-vi="Hệ Màu & Tầng Quy Chuẩn (8 Biến Thể Màu)">Color Palette & Tier Scheme (8 Color Set)</span>
+                    </h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+                       data-en="Both Container Cargo and Cardboard Box items share a unified 8-color scheme across all stage configurations: Red, Blue, Green, Yellow, Pink, Orange, Brown, and Cyan. Each color tier maps to distinct shape parameters and visual identifiers."
+                       data-vi="Cả Container Cargo và Thùng Hàng Carton đều sử dụng chung hệ thống 8 màu quy chuẩn: Đỏ, Xanh Dương, Xanh Lá, Vàng, Hồng, Cam, Nâu, Xanh Lam. Mỗi gam màu đi kèm các chi tiết trang trí hình học riêng biệt.">
+                        Both Container Cargo and Cardboard Box items share a unified 8-color scheme across all stage configurations: Red, Blue, Green, Yellow, Pink, Orange, Brown, and Cyan. Each color tier maps to distinct shape parameters and visual identifiers.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500 text-white">Red</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-blue-500 text-white">Blue</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-green-500 text-white">Green</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-yellow-500 text-black">Yellow</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-pink-500 text-white">Pink</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500 text-white">Orange</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-800 text-white">Brown</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-cyan-500 text-white">Cyan</span>
+                    </div>
+                </div>
+
+                <!-- Object Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Object 1: Container Cargo -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Container Cargo" data-vi="Container Chở Hàng">Container Cargo</h4>
+                                <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200 font-mono">Core Asset</span>
+                            </div>
+                            <ul class="text-sm space-y-2 text-slate-700 dark:text-slate-300">
+                                <li data-en="● 4 Size Variants: 4, 6, 8, 10 item slot capacity." data-vi="● 4 Kích thước: Sức chứa 4, 6, 8, hoặc 10 món hàng.">● 4 Size Variants: 4, 6, 8, 10 item slot capacity.</li>
+                                <li data-en="● 2 Operational States: Closed (display directional arrow) & Open (revealing internal items)." data-vi="● 2 Trạng thái: Đóng (hiện mũi tên hướng) & Mở (lộ hàng hóa bên trong).">● 2 Operational States: Closed (display directional arrow) & Open (revealing internal items).</li>
+                            </ul>
+                            <!-- ANIMATOR HIGHLIGHT BOX -->
+                            <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 space-y-1">
+                                <div class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-clapperboard"></i> <span>ANIMATION TEAM SPEC:</span></div>
+                                <p><strong>1. Move:</strong> Lift & parabolic arc transition from stack to parking slot (0.35s).</p>
+                                <p><strong>2. Open Lid:</strong> Hinge lid rotates 110 degrees upon arrival in parking slot.</p>
+                                <p><strong>3. Disappear:</strong> Lid seals tightly, lifts up 2m, and scales to 0 with particle pop.</p>
+                            </div>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Demo.jpg" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Object 2: Cardboard Box Item -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Cardboard Box Item" data-vi="Thùng Hàng Carton">Cardboard Box Item</h4>
+                                <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200 font-mono">Transport Item</span>
+                            </div>
+                            <ul class="text-sm space-y-2 text-slate-700 dark:text-slate-300">
+                                <li data-en="● Cardboard box for transporting cargo items." data-vi="● Thùng carton đóng gói vận chuyển hàng hóa.">● Cardboard box for transporting cargo items.</li>
+                                <li data-en="● 8 Color-coded packaging tiers matching container colors." data-vi="● 8 Tầng màu sắc đóng gói tương ứng với màu container.">● 8 Color-coded packaging tiers matching container colors.</li>
+                                <li data-en="● Distinct 3D mesh model & stamp icon per item type." data-vi="● Model 3D & biểu tượng tem in riêng biệt cho từng loại hàng.">● Distinct 3D mesh model & stamp icon per item type.</li>
+                            </ul>
+                            <!-- ANIMATOR HIGHLIGHT BOX -->
+                            <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 space-y-1">
+                                <div class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-clapperboard"></i> <span>ANIMATION TEAM SPEC:</span></div>
+                                <p><strong>1. Unpack Flight:</strong> Eject upwards from container onto conveyor belt (Bezier arc 0.25s).</p>
+                                <p><strong>2. Conveyor Scroll:</strong> Linear translation along roller track with rotation pulse.</p>
+                                <p><strong>3. Pack In:</strong> Fly from belt into container slot with squish/stretch bounce.</p>
+                            </div>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Demo.jpg" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Object 3: Roller Conveyor Track -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Roller Conveyor Track" data-vi="Băng Chuyền Con Lăn">Roller Conveyor Track</h4>
+                                <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 font-mono">Environment</span>
+                            </div>
+                            <ul class="text-sm space-y-2 text-slate-700 dark:text-slate-300">
+                                <li data-en="● Dark industrial roller belt with bright directional arrows." data-vi="● Băng chuyền con lăn công nghiệp với mũi tên hướng sáng.">● Dark industrial roller belt with bright directional arrows.</li>
+                                <li data-en="● Stores loose cardboard box items extracted from containers." data-vi="● Chứa các thùng carton rời tháo ra từ container.">● Stores loose cardboard box items extracted from containers.</li>
+                            </ul>
+                            <!-- ANIMATOR HIGHLIGHT BOX -->
+                            <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 space-y-1">
+                                <div class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-clapperboard"></i> <span>ANIMATION TEAM SPEC:</span></div>
+                                <p><strong>1. Belt Scroll:</strong> UV texture offset animation matching current conveyor speed (1x / 2x).</p>
+                                <p><strong>2. Roller Spin:</strong> Continuous 360-degree rotation of individual roller cylinders.</p>
+                            </div>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Demo.jpg" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                    <!-- Object 4: Spare Wood Container -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-base" data-en="Spare Wood Container" data-vi="Container Gỗ Phụ">Spare Wood Container</h4>
+                                <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 dark:bg-amber-900 dark:text-amber-200 font-mono">Special Box</span>
+                            </div>
+                            <ul class="text-sm space-y-2 text-slate-700 dark:text-slate-300">
+                                <li data-en="● Stores items without color matching constraints." data-vi="● Chứa các món hàng không bắt buộc trùng màu.">● Stores items without color matching constraints.</li>
+                                <li data-en="● Distinct outer wooden texture to avoid container confusion." data-vi="● Vỏ gỗ vân nịt đai khác biệt tránh nhầm với container màu.">● Distinct outer wooden texture to avoid container confusion.</li>
+                            </ul>
+                            <!-- ANIMATOR HIGHLIGHT BOX -->
+                            <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 space-y-1">
+                                <div class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-clapperboard"></i> <span>ANIMATION TEAM SPEC:</span></div>
+                                <p><strong>1. Unpack & Shatter:</strong> Lid pops open, items fly out, wooden planks break apart with dust cloud particle effect.</p>
+                            </div>
+                        </div>
+                        <div class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
+                                <img src="Demo.jpg" alt="State A Puzzle Board Screenshot">
+                                
+                            </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 7: AUDIO & HAPTICS -->
+            <section id="audio-haptics" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 07" data-vi="Phần 07">Section 07</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="SFX & Haptics Specification" data-vi="Âm Thanh & Rung Feedback">SFX & Haptics Specification</h2>
+                </div>
+
+                <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-800">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 dark:bg-slate-700/60 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-200 dark:border-slate-700">
+                                <th class="p-3.5">Event Name</th>
+                                <th class="p-3.5">Category</th>
+                                <th class="p-3.5">Trigger Condition</th>
+                                <th class="p-3.5">Haptic Force</th>
+                                <th class="p-3.5">Logic Details</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50 text-slate-700 dark:text-slate-300">
+                            <tr>
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">BGM Loading</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-mono text-xs">UI/Music</span></td>
+                                <td class="p-3.5">App boot & Loading Scene</td>
+                                <td class="p-3.5 text-slate-400">None</td>
+                                <td class="p-3.5">Looping ambient theme</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/40">
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">BGM In Game</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-mono text-xs">UI/Music</span></td>
+                                <td class="p-3.5">Start Gameplay stage</td>
+                                <td class="p-3.5 text-slate-400">None</td>
+                                <td class="p-3.5">Looping gameplay background track</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">Win Level</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200 font-mono text-xs">UI/SFX</span></td>
+                                <td class="p-3.5">Player completes level stage</td>
+                                <td class="p-3.5 font-bold text-emerald-600">Strong</td>
+                                <td class="p-3.5">Overrides In-Game BGM</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/40">
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">Lose Level</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200 font-mono text-xs">UI/SFX</span></td>
+                                <td class="p-3.5">Slot gridlock & stage failure</td>
+                                <td class="p-3.5 font-bold text-rose-600">Strong</td>
+                                <td class="p-3.5">Overrides In-Game BGM</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">Btn Tap</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 font-mono text-xs">UI</span></td>
+                                <td class="p-3.5">Tap interactive button</td>
+                                <td class="p-3.5 text-slate-500 font-medium">Weak</td>
+                                <td class="p-3.5">Instant UI click sound</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/40">
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">Container Clear</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 font-mono text-xs">SFX</span></td>
+                                <td class="p-3.5">Container reaches full match capacity</td>
+                                <td class="p-3.5 font-semibold text-amber-600">Medium</td>
+                                <td class="p-3.5">Pitch-shift audio chime</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">Send Container</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200 font-mono text-xs">SFX</span></td>
+                                <td class="p-3.5">Tap active container on board</td>
+                                <td class="p-3.5 text-slate-500 font-medium">Weak</td>
+                                <td class="p-3.5">Mechanical slide sound</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-800/40">
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">Ice Break</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200 font-mono text-xs">SFX</span></td>
+                                <td class="p-3.5">Frozen Container counter hits 0</td>
+                                <td class="p-3.5 font-semibold text-cyan-600">Medium</td>
+                                <td class="p-3.5">Ice shatter audio effect</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-semibold text-slate-900 dark:text-white">Slot Unlock</td>
+                                <td class="p-3.5"><span class="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 font-mono text-xs">SFX</span></td>
+                                <td class="p-3.5">Locked parking slot unlocks</td>
+                                <td class="p-3.5 font-semibold text-purple-600">Medium</td>
+                                <td class="p-3.5">Barrier unlock audio</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 8: REMOTE CONFIG -->
+            <section id="remote-config" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 08" data-vi="Phần 08">Section 08</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="Remote Config & Economy" data-vi="Cấu Hình Từ Xa & Kinh Tế">Remote Config & Economy</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Reward & Booster Purchase Config -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-coins text-amber-500"></i>
+                            <span data-en="Rewards & Booster Purchases" data-vi="Phần Thưởng & Mua Booster">Rewards & Booster Purchases</span>
+                        </h4>
+                        
+                        <!-- Table of Booster Purchase Rules -->
+                        <div class="space-y-2 text-sm">
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center font-mono">
+                                <span class="text-slate-600 dark:text-slate-400">coin_per_level</span>
+                                <span class="font-bold text-sky-600">50 coins</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center font-mono">
+                                <span class="text-slate-600 dark:text-slate-400">ads_reward_multiplier</span>
+                                <span class="font-bold text-sky-600">3x</span>
+                            </div>
+
+                            <!-- Booster 1 Config -->
+                            <div class="p-3 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 space-y-1">
+                                <div class="font-bold text-amber-900 dark:text-amber-300">Wood Container Booster (Paper Box):</div>
+                                <div class="flex justify-between font-mono text-xs">
+                                    <span>reward_per_purchase:</span>
+                                    <span class="font-bold text-amber-700 dark:text-amber-400">3 items</span>
+                                </div>
+                                <div class="flex justify-between font-mono text-xs">
+                                    <span>coin_cost:</span>
+                                    <span class="font-bold text-amber-700 dark:text-amber-400">150 coins</span>
+                                </div>
+                            </div>
+
+                            <!-- Booster 2 Config -->
+                            <div class="p-3 rounded-xl bg-red-50/60 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 space-y-1">
+                                <div class="font-bold text-red-900 dark:text-red-300">Magnet Booster:</div>
+                                <div class="flex justify-between font-mono text-xs">
+                                    <span>reward_per_purchase:</span>
+                                    <span class="font-bold text-red-700 dark:text-red-400">3 items</span>
+                                </div>
+                                <div class="flex justify-between font-mono text-xs">
+                                    <span>coin_cost:</span>
+                                    <span class="font-bold text-red-700 dark:text-red-400">200 coins</span>
+                                </div>
+                            </div>
+
+                            <!-- Booster 3 Config -->
+                            <div class="p-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900/50 space-y-1">
+                                <div class="font-bold text-purple-900 dark:text-purple-300">Crane Grabber (Remove):</div>
+                                <div class="flex justify-between font-mono text-xs">
+                                    <span>reward_per_purchase:</span>
+                                    <span class="font-bold text-purple-700 dark:text-purple-400">3 items</span>
+                                </div>
+                                <div class="flex justify-between font-mono text-xs">
+                                    <span>coin_cost:</span>
+                                    <span class="font-bold text-purple-700 dark:text-purple-400">250 coins</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ads & Sub-mechanics Config -->
+                    <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <h4 class="font-bold text-slate-900 dark:text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-indigo-500"></i>
+                            <span data-en="Ads & Revive Configuration" data-vi="Cấu Hình Quảng Cáo & Hồi Sinh">Ads & Revive Configuration</span>
+                        </h4>
+                        
+                        <div class="space-y-2 text-sm font-mono">
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">max_ads_multiplier_daily</span>
+                                <span class="font-bold text-emerald-600">0 (Unlimited)</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">max_ads_revive_daily</span>
+                                <span class="font-bold text-emerald-600">0 (Unlimited)</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">max_ads_booster_daily</span>
+                                <span class="font-bold text-emerald-600">0 (Unlimited)</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">1st_revive_cost</span>
+                                <span class="font-bold text-emerald-600">100 coins</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">price_growth_per_extra_revive</span>
+                                <span class="font-bold text-emerald-600">2.0x</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">max_revive_per_level</span>
+                                <span class="font-bold text-emerald-600">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 9: LEVEL CONFIG SCHEMA -->
+            <section id="level-config" class="scroll-mt-24 space-y-6">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold tracking-wider uppercase text-sky-600 dark:text-sky-400" data-en="Section 09" data-vi="Phần 09">Section 09</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1" data-en="Level Configuration Schema (JSON)" data-vi="Cấu Trúc File Màn Chơi (JSON)">Level Configuration Schema (JSON)</h2>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <p class="text-sm text-slate-700 dark:text-slate-300" data-en="Standard level JSON layout exported by level editor:" data-vi="Cấu trúc JSON chuẩn xuất từ công cụ thiết kế màn chơi:">
+                        Standard level JSON layout exported by level editor:
+                    </p>
+                    <button onclick="copyJsonSchema()" class="px-3.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-1.5">
+                        <i class="fa-regular fa-copy"></i>
+                        <span id="copyBtnText" data-en="Copy JSON" data-vi="Sao chép JSON">Copy JSON</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Code Block -->
+                <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 text-slate-200 font-mono text-xs shadow-xl">
+                    <div class="bg-slate-900 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between text-slate-400">
+                        <span class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                            <span class="ml-2 font-sans font-medium text-xs">Level_008_Config.json</span>
+                        </span>
+                        <span class="text-[10px]">UTF-8</span>
+                    </div>
+                    <pre class="p-4 overflow-x-auto leading-relaxed"><code id="jsonCodeBlock">{
+  "Id": 8,
+  "MaxCardsOnBelt": 24,
+  "BoardNodes": [
+    {
+      "Id": "0_-2_1",
+      "NodeId": 2,
+      "LayerId": 0,
+      "YRotation": 0.0,
+      "XPosition": -2.0,
+      "ZPosition": 1.0
+    },
+    {
+      "Id": "2_1_0",
+      "NodeId": 5,
+      "LayerId": 2,
+      "YRotation": 0.0,
+      "XPosition": 1.0,
+      "ZPosition": 0.0
+    }
+  ],
+  "BoxNodes": [
+    {
+      "Id": "0_-2_1",
+      "TypeId": 3,
+      "BoxColor": 0,
+      "BlockedNodes": [
+        "1_0_1",
+        "2_-1_0"
+      ],
+      "InitCards": [0, 0, 0, 1, 2, 3],
+      "IsHidden": false,
+      "LockedTurn": 0,
+      "IsCardsHidden": false
+    },
+    {
+      "Id": "2_1_0",
+      "TypeId": 6,
+      "BoxColor": 5,
+      "BlockedNodes": [],
+      "InitCards": [0, 0, 1, 1, 1, 2, 3, 4],
+      "IsHidden": false,
+      "LockedTurn": 0,
+      "IsCardsHidden": false
+    }
+  ],
+  "SpawnerNodes": [],
+  "TurnSpawnerNodes": [],
+  "LinkedBoxes": [],
+  "IsOddSize": false,
+  "Version": 2
+}</code></pre>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Document Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 mt-16">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 dark:text-slate-400 space-y-1">
+            <p>Card Factory / Goods Stack - Interactive Game Design Document</p>
+            <p class="font-mono text-[11px]">Container & Maritime Cargo Puzzle Engine Spec • 2026 Edition</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        /* Document Language State */
+        let currentLang = 'en';
+
+        /**
+         * Update Image URL on Input Change
+         */
+        function updateImageUrl(inputEl) {
+            const url = inputEl.value.trim();
+            const zone = inputEl.closest('.image-zone');
+            if (!zone) return;
+
+            const img = zone.querySelector('img');
+            if (!img) return;
+
+            if (url) {
+                img.src = url;
+                img.classList.remove('hidden');
+            } else {
+                img.src = '';
+                img.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Bilingual Switcher (ENG / VIE)
+         */
+        function setLanguage(lang) {
+            currentLang = lang;
+            const engBtn = document.getElementById('langEngBtn');
+            const viBtn = document.getElementById('langViBtn');
+
+            if (lang === 'vi') {
+                engBtn.className = 'px-3 py-1.5 rounded-md transition-all text-slate-600 dark:text-slate-300 hover:text-sky-600';
+                viBtn.className = 'px-3 py-1.5 rounded-md transition-all bg-sky-600 text-white shadow-sm';
+            } else {
+                engBtn.className = 'px-3 py-1.5 rounded-md transition-all bg-sky-600 text-white shadow-sm';
+                viBtn.className = 'px-3 py-1.5 rounded-md transition-all text-slate-600 dark:text-slate-300 hover:text-sky-600';
+            }
+
+            // Update all elements with data-en & data-vi attributes
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const textEn = el.getAttribute('data-en');
+                const textVi = el.getAttribute('data-vi');
+                if (lang === 'vi' && textVi) {
+                    el.textContent = textVi;
+                } else if (textEn) {
+                    el.textContent = textEn;
+                }
+            });
+        }
+
+        /**
+         * Dark Mode Toggle
+         */
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        /**
+         * Copy JSON function
+         */
+        function copyJsonSchema() {
+            const code = document.getElementById('jsonCodeBlock').innerText;
+            const textSpan = document.getElementById('copyBtnText');
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = code;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            const origText = currentLang === 'vi' ? 'Sao chép JSON' : 'Copy JSON';
+            textSpan.innerText = currentLang === 'vi' ? 'Đã sao chép!' : 'Copied!';
+            setTimeout(() => {
+                textSpan.innerText = origText;
+            }, 2000);
+        }
+
+        /**
+         * Search Bar Filter Logic
+         */
+        document.getElementById('gddSearch').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const sections = document.querySelectorAll('main > section');
+
+            sections.forEach(sec => {
+                if (!query) {
+                    sec.style.display = 'block';
+                    return;
+                }
+                const text = sec.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        });
+
+        // Keydown shortcut for search '/'
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                document.getElementById('gddSearch').focus();
+            }
+        });
+
+        function toggleMobileNav() {
+            const sidebar = document.getElementById('sidebarNav');
+            sidebar.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
