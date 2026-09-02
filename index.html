@@ -510,13 +510,13 @@
                                     Buffer)</span>
                             </h4>
                             <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
-                                data-en="Stores loose cardboard box items extracted from dispatched containers. The conveyor serves as an active logistics buffer: when containers arrive at parking slots, loose items with matching colors are immediately ingested from the belt. Each level specifies a strict item capacity limit (e.g. 24 cards max); exceeding this threshold triggers conveyor jamming and rapid loss."
-                                data-vi="Chứa các kiện hàng carton rời được tháo ra từ container khi đỗ. Băng chuyền đóng vai trò là vùng đệm luân chuyển: khi container vào ô đỗ, các món hàng trùng màu trên băng sẽ lập tức được hút vào. Mỗi màn chơi quy định sức chứa tối đa nghiêm ngặt (ví dụ: tối đa 24 món); vượt quá giới hạn này sẽ gây dồn tắc và dẫn đến thất bại.">
+                                data-en="Stores loose cardboard box items extracted from dispatched containers. The conveyor serves as an active logistics buffer: when containers arrive at parking slots, loose items with matching colors are immediately ingested from the belt. Conveyor will not limit the numbers of item on the belt but will limit the number of containers on the parking slot."
+                                data-vi="Chứa các kiện hàng carton rời được tháo ra từ container khi đỗ. Băng chuyền đóng vai trò là vùng đệm luân chuyển: khi container vào ô đỗ, các món hàng trùng màu trên băng sẽ lập tức được hút vào. Conveyor sẽ không giới hạn số item trên băng chuyền nhưng sẽ giới hạn số container có thể gửi.">
                                 Stores loose cardboard box items extracted from dispatched containers. The conveyor
                                 serves as an active logistics buffer: when containers arrive at parking slots, loose
-                                items with matching colors are immediately ingested from the belt. Each level specifies
-                                a strict item capacity limit (e.g. 24 cards max); exceeding this threshold triggers
-                                conveyor jamming and rapid loss.
+                                items with matching colors are immediately ingested from the belt. Conveyor will not
+                                limit the numbers of item on the belt but will limit the number of containers on the
+                                parking slot.
                             </p>
                         </div>
                         <div
@@ -785,58 +785,61 @@
 
                 <div class="space-y-6">
 
-                    <!-- Booster 1: Wood Container Vacuum -->
+                    <!-- Booster 1: Unbox -->
                     <div
                         class="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
                         <div
                             class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">
                             <div class="flex items-center gap-3">
                                 <div
-                                    class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-xl">
-                                    📦
+                                    class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-amber-500/20">
+                                    🔓
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-slate-900 dark:text-white text-base"
-                                        data-en="Booster 1: Wood Container Vacuum"
-                                        data-vi="Booster 1: Container Gỗ Hút Hàng">Booster 1: Wood Container Vacuum</h3>
+                                        data-en="Booster 1: Unbox" data-vi="Booster 1: Mở Hộp (Unbox)">Booster 1: Unbox
+                                    </h3>
                                     <span class="text-xs text-slate-500 dark:text-slate-400"
-                                        data-en="Conveyor Belt Clearer & Defeat Revive Mechanism"
-                                        data-vi="Cứu nguy Băng Chuyền & Cơ chế Hồi Sinh">Conveyor Belt Clearer & Defeat
-                                        Revive Mechanism</span>
+                                        data-en="Inspect Contents & Force-Unblock Container"
+                                        data-vi="Xem Trước Nội Dung & Mở Khóa Container">Inspect Contents &
+                                        Force-Unblock Container</span>
                                 </div>
                             </div>
                             <span
                                 class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200">
-                                Anti-Softlock Power
+                                Stack Bypass Power
                             </span>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700 dark:text-slate-300">
                             <div>
                                 <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1"
-                                    data-en="Behavior & Extraction:" data-vi="Cách Thức Hoạt Động:">Behavior &
-                                    Extraction:</h5>
-                                <p data-en="Scans items on conveyor track, extracts up to 8 items, and stacks them into a newly spawned Wood Container below the conveyor (without consuming parking slots)."
-                                    data-vi="Quét các món hàng trên băng chuyền, hút tối đa 8 món và tự tạo một Container Gỗ mới ngay dưới băng chuyền (không tốn ô đỗ).">
-                                    Scans items on conveyor track, extracts up to 8 items, and stacks them into a newly
-                                    spawned Wood Container below the conveyor (without consuming parking slots).
+                                    data-en="Mechanics & State Logic:" data-vi="Cơ Chế & Logic Hoạt Động:">Mechanics &
+                                    State Logic:</h5>
+                                <p data-en="Opens the lid of the selected container on the puzzle board to reveal all cargo content inside. The container permanently transitions into an unblocked state—allowing it to be dispatched directly to the parking slots even if other containers are physically placed on top of it."
+                                    data-vi="Mở nắp container được chọn trên bàn cờ để kiểm tra hàng hóa bên trong. Container sau đó lập tức chuyển sang trạng thái mở khóa (unblocked)—cho phép gửi vào ô đỗ ngay cả khi đang có các container khác đè lên trên.">
+                                    Opens the lid of the selected container on the puzzle board to reveal all cargo
+                                    content inside. The container permanently transitions into an unblocked
+                                    state—allowing it to be dispatched directly to the parking slots even if other
+                                    containers are physically placed on top of it.
                                 </p>
                             </div>
                             <div>
                                 <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1"
-                                    data-en="Sorting Priority & Conditions:" data-vi="Ưu Tiên & Điều Kiện:">Sorting
-                                    Priority & Conditions:</h5>
-                                <p data-en="Groups items by matching color first. Requires at least 1 item on belt. Automatically prompts as FREE REVIVE option upon jam state defeat."
-                                    data-vi="Gom nhóm các món cùng màu trước. Bắt buộc có ít nhất 1 món trên băng chuyền. Tự động gợi ý dùng làm HỒI SINH MIỄN PHÍ khi kẹt bãi.">
-                                    Groups items by matching color first. Requires at least 1 item on belt.
-                                    Automatically prompts as FREE REVIVE option upon jam state defeat.
+                                    data-en="Animation & Visual Feedback:" data-vi="Hiệu Ứng Hoạt Họa (Animation):">
+                                    Animation & Visual Feedback:</h5>
+                                <p data-en="When activated, the selected container flies up vertically, opens its lid smoothly to reveal cargo, and returns back to its original board position in an active, interactable state."
+                                    data-vi="Khi kích hoạt, container được chọn sẽ bay lên cao, mở nắp mượt mà để lộ hàng hóa bên trong, sau đó hạ trở về vị trí ban đầu với trạng thái hoạt động có thể bấm chọn.">
+                                    When activated, the selected container flies up vertically, opens its lid smoothly
+                                    to reveal cargo, and returns back to its original board position in an active,
+                                    interactable state.
                                 </p>
                             </div>
                         </div>
 
                         <div
                             class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
-                            <img src="booster1.png" alt="Booster 1 Screenshot">
+                            <img src="booster1.png" alt="Booster 1 Unbox Screenshot">
                         </div>
                     </div>
 
