@@ -90,7 +90,7 @@
                         <span>Card Factory</span>
                         <span
                             class="text-xs px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 font-semibold border border-sky-200 dark:border-sky-800">GDD
-                            v3.2</span>
+                            v3.3</span>
                     </h1>
                     <p class="text-xs text-slate-500 dark:text-slate-400">Cargo & Container Logistics Puzzle</p>
                 </div>
@@ -342,9 +342,10 @@
                         </div>
                         <ul
                             class="text-sm text-slate-700 dark:text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
-                            <li data-en="Occurs when all open Parking Slots are occupied by incomplete containers."
-                                data-vi="Xảy ra khi tất cả các Ô Đỗ đều bị chiếm bởi container chưa hoàn thành.">
-                                Occurs when all open Parking Slots are occupied by incomplete containers.</li>
+                            <li data-en="Occurs when all open Parking Slots are occupied by incomplete containers, and the conveyor belt shelf space is completely filled."
+                                data-vi="Xảy ra khi tất cả các Ô Đỗ đều bị chiếm bởi container chưa hoàn thành, đồng thời băng chuyền đã hết chỗ chứa.">
+                                Occurs when all open Parking Slots are occupied by incomplete containers, and the
+                                conveyor belt shelf space is completely filled.</li>
                             <li data-en="If no further moves can unpack items or free a slot, a Game-Over popup appears."
                                 data-vi="Nếu không thể tiếp tục giải phóng hàng hóa hoặc mở trống ô đỗ, bảng Thất Bại sẽ xuất hiện.">
                                 If no further moves can unpack items or free a slot, a Game-Over popup appears.</li>
@@ -354,10 +355,9 @@
                             class="p-3 bg-amber-100 dark:bg-amber-950/60 rounded-xl border border-amber-300 dark:border-amber-800 text-xs font-semibold text-amber-900 dark:text-amber-200 flex items-center gap-2">
                             <i class="fa-solid fa-bolt text-amber-600"></i>
                             <span
-                                data-en="REVIVE MECHANIC: Revive option triggers a FREE Revive option triggers a FREE Magnet Pull Booster to clear 1 container from the parking slots"
-                                data-vi="CƠ CHẾ HỒI SINH: Tùy chọn Hồi sinh sẽ kích hoạt miễn phí Booster Nam Châm Hút Hàng để dọn 1 container khỏi băng chuyền!">
-                                REVIVE MECHANIC: Revive option triggers a FREE Magnet Pull Booster to
-                                clear 1 container from the parking slots!
+                                data-en="REVIVE MECHANIC: Revive option grants emergency clearance support to resume the game and resolve gridlock!"
+                                data-vi="CƠ CHẾ HỒI SINH: Tùy chọn Hồi sinh hỗ trợ giải tỏa khẩn cấp để tiếp tục màn chơi và giải quyết kẹt bãi!">
+                                REVIVE MECHANIC: Revive option grants emergency clearance support to resume the game and resolve gridlock!
                             </span>
                         </div>
                     </div>
@@ -509,13 +509,13 @@
                                     Buffer)</span>
                             </h4>
                             <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
-                                data-en="Stores loose cardboard box items extracted from dispatched containers. The conveyor serves as an active logistics buffer: when containers arrive at parking slots, loose items with matching colors are immediately ingested from the belt. Conveyor will not limit the numbers of item on the belt but will limit the number of containers on the parking slot."
-                                data-vi="Chứa các kiện hàng carton rời được tháo ra từ container khi đỗ. Băng chuyền đóng vai trò là vùng đệm luân chuyển: khi container vào ô đỗ, các món hàng trùng màu trên băng sẽ lập tức được hút vào. Conveyor sẽ không giới hạn số item trên băng chuyền nhưng sẽ giới hạn số container có thể gửi.">
+                                data-en="Stores loose cardboard box items extracted from dispatched containers. The conveyor serves as an active logistics buffer: when containers arrive at parking slots, loose items with matching colors are immediately ingested from the belt. Each level specifies a strict item capacity limit (e.g. 24 cards max); exceeding this threshold triggers conveyor jamming and rapid loss."
+                                data-vi="Chứa các kiện hàng carton rời được tháo ra từ container khi đỗ. Băng chuyền đóng vai trò là vùng đệm luân chuyển: khi container vào ô đỗ, các món hàng trùng màu trên băng sẽ lập tức được hút vào. Mỗi màn chơi quy định sức chứa tối đa nghiêm ngặt (ví dụ: tối đa 24 món); vượt quá giới hạn này sẽ gây dồn tắc và dẫn đến thất bại.">
                                 Stores loose cardboard box items extracted from dispatched containers. The conveyor
                                 serves as an active logistics buffer: when containers arrive at parking slots, loose
-                                items with matching colors are immediately ingested from the belt. Conveyor will not
-                                limit the numbers of item on the belt but will limit the number of containers on the
-                                parking slot.
+                                items with matching colors are immediately ingested from the belt. Each level specifies
+                                a strict item capacity limit (e.g. 24 cards max); exceeding this threshold triggers
+                                conveyor jamming and rapid loss.
                             </p>
                         </div>
                         <div
@@ -797,12 +797,10 @@
                                 <div>
                                     <h3 class="font-bold text-slate-900 dark:text-white text-base"
                                         data-en="Booster 1: Repaint (Stack-to-Belt Swap)"
-                                        data-vi="Booster 1: Sơn Đổi Hàng (Repaint)">Booster 1: Repaint (Stack-to-Belt
-                                        Swap)</h3>
+                                        data-vi="Booster 1: Sơn Đổi Hàng (Repaint)">Booster 1: Repaint (Stack-to-Belt Swap)</h3>
                                     <span class="text-xs text-slate-500 dark:text-slate-400"
                                         data-en="Swaps Stack Items to Fill All Active Parking Containers"
-                                        data-vi="Hoán Đổi Hàng Dưới Chồng Để Đóng Đầy Mọi Container Trong Ô Đỗ">Swaps
-                                        Stack Items to Fill All Active Parking Containers</span>
+                                        data-vi="Hoán Đổi Hàng Dưới Chồng Để Đóng Đầy Mọi Container Trong Ô Đỗ">Swaps Stack Items to Fill All Active Parking Containers</span>
                                 </div>
                             </div>
                             <span
@@ -814,35 +812,25 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700 dark:text-slate-300">
                             <div>
                                 <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1"
-                                    data-en="Mechanics & Swap Demand Calculation:"
-                                    data-vi="Cơ Chế & Tính Toán Số Lượng Đổi:">Mechanics & Swap Demand Calculation:</h5>
-                                <p data-en="Calculates the exact total missing item deficit across 3 random containers currently occupying the parking slots. It then locates matching colored items deep within the board stack below and executes a 1-to-1 exchange: mismatched items on the conveyor are swapped into the stack below, while the required matching items are brought directly onto the conveyor belt."
-                                    data-vi="Tự động tính toán chính xác tổng số lượng món hàng còn thiếu của TỐI ĐA 3 container đang nằm trong các ô đỗ. Sau đó, hệ thống tìm các món có màu tương ứng từ các thùng dưới chồng bàn cờ và thực hiện đổi 1-1: đưa hàng cản trở trên băng chuyền xuống dưới chồng và kéo đúng số lượng hàng cần thiết lên băng chuyền.">
-                                    Calculates the exact total missing item deficit across 3 random containers currently
-                                    occupying the parking slots. It then locates matching colored items deep within the
-                                    board stack below and executes a 1-to-1 exchange: mismatched items on the conveyor
-                                    are swapped into the stack below, while the required matching items are brought
-                                    directly onto the conveyor belt.
+                                    data-en="Mechanics & Swap Demand Calculation:" data-vi="Cơ Chế & Tính Toán Số Lượng Đổi:">Mechanics & Swap Demand Calculation:</h5>
+                                <p data-en="Calculates the exact total missing item deficit across ALL containers currently occupying the parking slots. It then locates matching colored items deep within the board stack below and executes a 1-to-1 exchange: mismatched items on the conveyor are swapped into the stack below, while the required matching items are brought directly onto the conveyor belt."
+                                    data-vi="Tự động tính toán chính xác tổng số lượng món hàng còn thiếu của TẤT CẢ container đang nằm trong các ô đỗ. Sau đó, hệ thống tìm các món có màu tương ứng từ các thùng dưới chồng bàn cờ và thực hiện đổi 1-1: đưa hàng cản trở trên băng chuyền xuống dưới chồng và kéo đúng số lượng hàng cần thiết lên băng chuyền.">
+                                    Calculates the exact total missing item deficit across ALL containers currently occupying the parking slots. It then locates matching colored items deep within the board stack below and executes a 1-to-1 exchange: mismatched items on the conveyor are swapped into the stack below, while the required matching items are brought directly onto the conveyor belt.
                                 </p>
                             </div>
                             <div>
                                 <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1"
-                                    data-en="Instant Gridlock Relief & Packing:"
-                                    data-vi="Hiệu Quả Đóng Gói & Giải Phóng Ô Đỗ:">Instant Gridlock Relief & Packing:
-                                </h5>
+                                    data-en="Instant Gridlock Relief & Packing:" data-vi="Hiệu Quả Đóng Gói & Giải Phóng Ô Đỗ:">Instant Gridlock Relief & Packing:</h5>
                                 <p data-en="Because the exact quantity and colors required to complete every parked container are placed onto the belt, all items immediately fly into their respective containers in rapid sequence. This completes and dispatches every parked container at once, freeing up all parking slots and clearing belt congestion in a single action."
                                     data-vi="Vì số lượng và màu sắc hàng được đưa lên băng chuyền khớp 100% nhu cầu của các container đang đỗ, toàn bộ số hàng này sẽ lập tức hút vào container theo chuỗi liên hoàn. Nhờ đó, tất cả container trong ô đỗ được đóng nắp và xuất xưởng đồng loạt, giải phóng toàn bộ ô đỗ và dọn sạch nguy cơ kẹt bãi.">
-                                    Because the exact quantity and colors required to complete every parked container
-                                    are placed onto the belt, all items immediately fly into their respective containers
-                                    in rapid sequence. This completes and dispatches every parked container at once,
-                                    freeing up all parking slots and clearing belt congestion in a single action.
+                                    Because the exact quantity and colors required to complete every parked container are placed onto the belt, all items immediately fly into their respective containers in rapid sequence. This completes and dispatches every parked container at once, freeing up all parking slots and clearing belt congestion in a single action.
                                 </p>
                             </div>
                         </div>
 
                         <div
                             class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
-                            <img src="booster1.jpg" alt="Booster 1 Repaint Screenshot">
+                            <img src="booster1.png" alt="Booster 1 Repaint Screenshot">
                         </div>
                     </div>
 
@@ -1066,14 +1054,14 @@
                         configurations: Red, Blue, Green, Yellow, Pink, Orange, Brown, and Cyan.
                     </p>
                     <div class="flex flex-wrap gap-2 pt-1">
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500 text-white">1:Red</span>
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-blue-500 text-white">2:Blue</span>
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-green-500 text-white">3:Green</span>
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-yellow-500 text-black">4:Yellow</span>
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-pink-500 text-white">5:Pink</span>
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500 text-white">6:Orange</span>
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-800 text-white">6:Brown</span>
-                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-cyan-500 text-white">7:Cyan</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500 text-white">Red</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-blue-500 text-white">Blue</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-green-500 text-white">Green</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-yellow-500 text-black">Yellow</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-pink-500 text-white">Pink</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-orange-500 text-white">Orange</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-800 text-white">Brown</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-cyan-500 text-white">Cyan</span>
                     </div>
                 </div>
 
@@ -1282,12 +1270,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="p-3.5 font-medium">Booster 1 (Wood Vacuum)</td>
+                                    <td class="p-3.5 font-medium">Booster 1 (Repaint)</td>
                                     <td class="p-3.5 font-mono text-xs text-amber-600 dark:text-amber-400 font-bold">
-                                        Anim_Booster_WoodVacuum_Deploy</td>
-                                    <td class="p-3.5 text-xs">Player activates Booster 1 / Revive</td>
-                                    <td class="p-3.5 text-xs">Wood crate drops into staging position below belt, vortex
-                                        suction draws up to 8 items inside.</td>
+                                        Anim_Booster_Repaint_SwapSupply</td>
+                                    <td class="p-3.5 text-xs">Player activates Repaint Booster</td>
+                                    <td class="p-3.5 text-xs">Dual luminous energy streaks exchange mismatched conveyor items with matching colored items from stack below; items immediately zoom into parking containers with sequential lid slam FX.</td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Booster 2 (Magnet)</td>
@@ -1517,14 +1504,14 @@
                             </div>
                         </div>
 
-                        <!-- Booster 1 Wood Vacuum Spec -->
+                        <!-- Booster 1 Repaint Spec -->
                         <div
                             class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
-                            <h5 class="font-bold text-slate-900 dark:text-white text-sm" data-en="Wood Booster Icon"
-                                data-vi="Icon Booster Hút Gỗ">Wood Booster Icon</h5>
+                            <h5 class="font-bold text-slate-900 dark:text-white text-sm" data-en="Repaint Booster Icon"
+                                data-vi="Icon Booster Sơn Đổi Hàng">Repaint Booster Icon</h5>
                             <div
                                 class="image-zone p-2 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/40 text-center">
-                                <img src="booster1cc.png" alt="Wood Container Booster Icon Spec">
+                                <img src="booster1cc.png" alt="Repaint Booster Icon Spec">
                             </div>
                         </div>
 
@@ -1702,8 +1689,7 @@
                             <!-- Booster 1 Config -->
                             <div
                                 class="p-3 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 space-y-1">
-                                <div class="font-bold text-amber-900 dark:text-amber-300">Wood Container Booster (Paper
-                                    Box):</div>
+                                <div class="font-bold text-amber-900 dark:text-amber-300">Repaint Booster:</div>
                                 <div class="flex justify-between font-mono text-xs">
                                     <span>reward_per_purchase:</span>
                                     <span class="font-bold text-amber-700 dark:text-amber-400">3 items</span>
