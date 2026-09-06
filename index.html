@@ -1089,35 +1089,38 @@
                     </div>
 
                     <p class="text-sm text-slate-700 dark:text-slate-300"
-                        data-en="The table below lists all required animations across all game objects, states, boosters, and UI events:"
-                        data-vi="Bảng dưới đây liệt kê toàn bộ các animation bắt buộc trong game cho từng đối tượng, trạng thái, vật phẩm bổ trợ và giao diện:">
+                        data-en="The table below lists all required animations across all game objects, states, boosters, and UI events, complete with embedded visual previews and video demo references:"
+                        data-vi="Bảng dưới đây liệt kê toàn bộ các animation bắt buộc trong game cho từng đối tượng, trạng thái, vật phẩm bổ trợ và giao diện kèm ô xem thử video / demo trực quan:">
                         The table below lists all required animations across all game objects, states, boosters, and UI
-                        events:
+                        events, complete with embedded visual previews and video demo references:
                     </p>
 
                     <!-- Animation Checklist Table -->
                     <div
                         class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-800">
-                        <table class="w-full text-left border-collapse text-sm">
+                        <table class="w-full text-left border-collapse text-sm min-w-[760px]">
                             <thead>
                                 <tr
                                     class="bg-slate-100 dark:bg-slate-700/60 text-slate-800 dark:text-slate-200 font-bold border-b border-slate-200 dark:border-slate-700">
-                                    <th class="p-3.5 w-1/5" data-en="Category / Object" data-vi="Đối Tượng / Nhóm">
+                                    <th class="p-3.5 w-1/6" data-en="Category / Object" data-vi="Đối Tượng / Nhóm">
                                         Category / Object</th>
-                                    <th class="p-3.5 w-1/4" data-en="Animation Name" data-vi="Tên Animation">Animation
+                                    <th class="p-3.5 w-1/5" data-en="Animation Name" data-vi="Tên Animation">Animation
                                         Name</th>
-                                    <th class="p-3.5 w-1/4" data-en="Trigger Condition" data-vi="Điều Kiện Kích Hoạt">
+                                    <th class="p-3.5 w-1/5" data-en="Trigger Condition" data-vi="Điều Kiện Kích Hoạt">
                                         Trigger Condition</th>
-                                    <th class="p-3.5" data-en="Visual Action Required" data-vi="Hành Động Hiển Thị">
+                                    <th class="p-3.5 w-1/4" data-en="Visual Action Required"
+                                        data-vi="Hành Động Hiển Thị">
                                         Visual Action Required</th>
+                                    <th class="p-3.5 w-48 text-center" data-en="Visual Demo" data-vi="Demo Trực Quan">
+                                        Visual Demo</th>
                                 </tr>
                             </thead>
                             <tbody
-                                class="divide-y divide-slate-100 dark:divide-slate-700/50 text-slate-700 dark:text-slate-300">
+                                class="divide-y divide-slate-100 dark:divide-slate-700/50 text-slate-700 dark:text-slate-300 align-top">
                                 <!-- Group 1: Container Cargo -->
                                 <tr
                                     class="bg-sky-50/30 dark:bg-sky-950/20 font-semibold text-slate-900 dark:text-slate-100">
-                                    <td colspan="4"
+                                    <td colspan="5"
                                         class="p-3 text-xs tracking-wider uppercase text-sky-700 dark:text-sky-300">
                                         <i class="fa-solid fa-boxes-stacked mr-1.5"></i> 1. Container Cargo Animations
                                     </td>
@@ -1125,47 +1128,90 @@
                                 <tr>
                                     <td class="p-3.5 font-medium">Colored Container</td>
                                     <td class="p-3.5 font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">
-                                        Anim_Container_SlideToSlot</td>
-                                    <td class="p-3.5 text-xs">Player taps unblocked container on board</td>
-                                    <td class="p-3.5 text-xs">Slides smoothly along an arc/path from board stack into
-                                        the first free parking slot.</td>
+                                        Anim_Container_BoxSent</td>
+                                    <td class="p-3.5 text-xs">Player taps on box to send them to parking slot</td>
+                                    <td class="p-3.5 text-xs">Box move straight to the parking slot. ease out at the end
+                                        to smooth out the movement.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="animRef/boxSent.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Colored Container</td>
                                     <td class="p-3.5 font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">
-                                        Anim_Container_LidOpen</td>
-                                    <td class="p-3.5 text-xs">Container arrives at slot / top layer unblocked</td>
+                                        Anim_Container_BoxUnblock</td>
+                                    <td class="p-3.5 text-xs">Container open the lid to review inside</td>
                                     <td class="p-3.5 text-xs">Lid flips/rotates open cleanly to display interior cargo
                                         items.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="animRef/boxUnblock.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Colored Container</td>
                                     <td class="p-3.5 font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">
-                                        Anim_Container_LidClose</td>
+                                        Anim_Container_BoxComplete</td>
                                     <td class="p-3.5 text-xs">All required color items matched (full capacity)</td>
-                                    <td class="p-3.5 text-xs">Lid snaps shut firmly, sealing the container.</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Colored Container</td>
-                                    <td class="p-3.5 font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">
-                                        Anim_Container_DepartSuccess</td>
-                                    <td class="p-3.5 text-xs">Immediately after Lid Close</td>
-                                    <td class="p-3.5 text-xs">Departs/slides off-screen downward, vacating the parking
-                                        slot.</td>
+                                    <td class="p-3.5 text-xs">Lid snaps shut, box then hover up and fly out of the
+                                        screen</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="animRef/boxComplete.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Wood Container</td>
                                     <td class="p-3.5 font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">
                                         Anim_WoodContainer_ShatterClear</td>
-                                    <td class="p-3.5 text-xs">Last item extracted from Wood Container</td>
-                                    <td class="p-3.5 text-xs">Breaks apart into fragments and fades out completely
-                                        without taking any parking slot.</td>
+                                    <td class="p-3.5 text-xs">Player taps on Wood Container to send them to parking
+                                        slot&nbsp;</td>
+                                    <td class="p-3.5 text-xs">Items are sent up like normal box but the box itself hover
+                                        up. Spawn poof particle and dissapear.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900 border border-amber-300 dark:border-amber-800/80 shadow-sm flex items-center justify-center relative group">
+                                                <img src="animRef/poofEffect.gif" alt="Wood Container GIF Demo"
+                                                    class="w-full h-auto max-h-72 block object-contain"
+                                                    onerror="this.onerror=null; this.src='WoodContainer.png';">
+                                            </div>
+
+                                        </div>
+                                    </td>
                                 </tr>
 
                                 <!-- Group 2: Cardboard Box / Items -->
                                 <tr
                                     class="bg-emerald-50/30 dark:bg-emerald-950/20 font-semibold text-slate-900 dark:text-slate-100">
-                                    <td colspan="4"
+                                    <td colspan="5"
                                         class="p-3 text-xs tracking-wider uppercase text-emerald-700 dark:text-emerald-300">
                                         <i class="fa-solid fa-box-open mr-1.5"></i> 2. Cardboard Box / Cargo Item
                                         Animations
@@ -1175,60 +1221,53 @@
                                     <td class="p-3.5 font-medium">Cardboard Box Item</td>
                                     <td
                                         class="p-3.5 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
-                                        Anim_Item_UnpackFlyToBelt</td>
-                                    <td class="p-3.5 text-xs">Container docks at parking slot</td>
+                                        Anim_Item_MovetoConveyor</td>
+                                    <td class="p-3.5 text-xs">Box containing the item got sent to conveyor</td>
                                     <td class="p-3.5 text-xs">Items jump out in sequential parabola trajectories onto
-                                        the conveyor track.</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Cardboard Box Item</td>
-                                    <td
-                                        class="p-3.5 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
-                                        Anim_Item_FlyIntoContainer</td>
-                                    <td class="p-3.5 text-xs">Matching color container in parking slot</td>
-                                    <td class="p-3.5 text-xs">Snaps off belt and flies straight into matching slot
-                                        inside container with a crisp settle bounce.</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Cardboard Box Item</td>
-                                    <td
-                                        class="p-3.5 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
-                                        Anim_Item_SwapExchange</td>
-                                    <td class="p-3.5 text-xs">Crane Booster 1-to-1 swap execution</td>
-                                    <td class="p-3.5 text-xs">Two items cross paths simultaneously, exchanging positions
-                                        between target and source container.</td>
-                                </tr>
+                                        the conveyor starting point slide into the input hole.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="animRef/item move to conveyor.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
 
-                                <!-- Group 3: Environment & Track -->
-                                <tr
-                                    class="bg-slate-100/70 dark:bg-slate-800/80 font-semibold text-slate-900 dark:text-slate-100">
-                                    <td colspan="4"
-                                        class="p-3 text-xs tracking-wider uppercase text-slate-700 dark:text-slate-300">
-                                        <i class="fa-solid fa-conveyor-belt mr-1.5"></i> 3. Environment & Conveyor Belt
-                                        Animations
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="p-3.5 font-medium">Conveyor Belt</td>
-                                    <td class="p-3.5 font-mono text-xs text-slate-700 dark:text-slate-300 font-bold">
-                                        Anim_Conveyor_LoopRoll</td>
-                                    <td class="p-3.5 text-xs">Continuous gameplay (1x / 2x speed)</td>
-                                    <td class="p-3.5 text-xs">Continuous rolling movement along track direction.</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Conveyor Belt</td>
-                                    <td class="p-3.5 font-mono text-xs text-rose-600 dark:text-rose-400 font-bold">
-                                        Anim_Belt_WarningCapacityPulse</td>
-                                    <td class="p-3.5 text-xs">Item count on belt exceeds 80% capacity</td>
-                                    <td class="p-3.5 text-xs">Belt outline/rollers pulse red with alert visual cue.</td>
+                                    <td class="p-3.5 font-medium">Cardboard Box Item</td>
+                                    <td
+                                        class="p-3.5 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                                        Anim_Item_MovetoBox</td>
+                                    <td class="p-3.5 text-xs">Box found matching item and pull them in</td>
+                                    <td class="p-3.5 text-xs">Snaps off belt in sequential parabola trajectories
+                                        onto&nbsp;matching box inside container with a crisp settle bounce.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="animRef/item move to box.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+
+                                        </div>
+                                    </td>
                                 </tr>
 
-                                <!-- Group 4: Special Puzzle Elements -->
+                                <!-- Group 3: Special Puzzle Elements -->
                                 <tr
                                     class="bg-purple-50/30 dark:bg-purple-950/20 font-semibold text-slate-900 dark:text-slate-100">
-                                    <td colspan="4"
+                                    <td colspan="5"
                                         class="p-3 text-xs tracking-wider uppercase text-purple-700 dark:text-purple-300">
-                                        <i class="fa-solid fa-cube mr-1.5"></i> 4. Special Puzzle Elements Animations
+                                        <i class="fa-solid fa-cube mr-1.5"></i> 3. Special Puzzle Elements Animations
                                     </td>
                                 </tr>
                                 <tr>
@@ -1238,14 +1277,38 @@
                                     <td class="p-3.5 text-xs">Rainbow container becomes unblocked</td>
                                     <td class="p-3.5 text-xs">Wrapper peels/bursts away, transitioning to true solid
                                         container color.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900 border border-amber-300 dark:border-amber-800/80 shadow-sm flex items-center justify-center relative group">
+                                                <img src="animRef/poofEffect.gif" alt="Wood Container GIF Demo"
+                                                    class="w-full h-auto max-h-72 block object-contain"
+                                                    onerror="this.onerror=null; this.src='WoodContainer.png';">
+                                            </div>
+
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Ship Door Spawner</td>
                                     <td class="p-3.5 font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">
                                         Anim_Spawner_DoorOpenAndEject</td>
                                     <td class="p-3.5 text-xs">Exit container dispatched from board</td>
-                                    <td class="p-3.5 text-xs">Bulkhead door slides open, next container slides forward
-                                        to entrance, door snaps shut.</td>
+                                    <td class="p-3.5 text-xs">The previous box got sent to conveyor like a normal box.
+                                        Then the next box appear start from scale 0 then scale up to a normal box.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="animRef/spawner.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Frozen Container</td>
@@ -1254,14 +1317,21 @@
                                     <td class="p-3.5 text-xs">Any container dispatched (countdown decrements)</td>
                                     <td class="p-3.5 text-xs">Ice block shakes with newly appearing fracture lines and
                                         numeric counter pop.</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Frozen Container</td>
-                                    <td class="p-3.5 font-mono text-xs text-cyan-600 dark:text-cyan-400 font-bold">
-                                        Anim_Ice_ShatterBurst</td>
-                                    <td class="p-3.5 text-xs">Ice countdown reaches 0</td>
-                                    <td class="p-3.5 text-xs">Ice block explodes outward into frost particles, revealing
-                                        interactive container.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="animRef/frozen box.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+                                            <span
+                                                class="text-[10px] font-mono text-slate-400 dark:text-slate-500 block truncate"
+                                                title="ref/demo.mp4">ref/demo.mp4</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Locked Slot</td>
@@ -1270,24 +1340,54 @@
                                     <td class="p-3.5 text-xs">Lock countdown hits 0</td>
                                     <td class="p-3.5 text-xs">Safety barrier retracts/drops, hazard lines disappear,
                                         transitioning into open slot.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="ref/demo.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+                                            <span
+                                                class="text-[10px] font-mono text-slate-400 dark:text-slate-500 block truncate"
+                                                title="ref/demo.mp4">ref/demo.mp4</span>
+                                        </div>
+                                    </td>
                                 </tr>
 
-                                <!-- Group 5: Boosters & Power-ups -->
+                                <!-- Group 4: Boosters & Power-ups -->
                                 <tr
                                     class="bg-amber-50/30 dark:bg-amber-950/20 font-semibold text-slate-900 dark:text-slate-100">
-                                    <td colspan="4"
+                                    <td colspan="5"
                                         class="p-3 text-xs tracking-wider uppercase text-amber-700 dark:text-amber-300">
-                                        <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> 5. Boosters & Power-ups
-                                        Animations
+                                        <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> 4. Boosters &amp;
+                                        Power-ups Animations
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="p-3.5 font-medium">Booster 1 (Wood Vacuum)</td>
+                                    <td class="p-3.5 font-medium">Booster 1 (Repaint)</td>
                                     <td class="p-3.5 font-mono text-xs text-amber-600 dark:text-amber-400 font-bold">
-                                        Anim_Booster_WoodVacuum_Deploy</td>
+                                        Anim_Booster_Repaint</td>
                                     <td class="p-3.5 text-xs">Player activates Booster 1 / Revive</td>
-                                    <td class="p-3.5 text-xs">Wood crate drops into staging position below belt, vortex
-                                        suction draws up to 8 items inside.</td>
+                                    <td class="p-3.5 text-xs">Items from the conveyor fly down the boxes below. While
+                                        items from the box below fly up to replace them</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="ref/demo.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+                                            <span
+                                                class="text-[10px] font-mono text-slate-400 dark:text-slate-500 block truncate"
+                                                title="ref/demo.mp4">ref/demo.mp4</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Booster 2 (Magnet)</td>
@@ -1296,6 +1396,21 @@
                                     <td class="p-3.5 text-xs">Player activates Magnet Booster</td>
                                     <td class="p-3.5 text-xs">Magnet appears over largest container, pulsing arc FX
                                         pulls matching items across entire board straight into it.</td>
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="ref/demo.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+                                            <span
+                                                class="text-[10px] font-mono text-slate-400 dark:text-slate-500 block truncate"
+                                                title="ref/demo.mp4">ref/demo.mp4</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Booster 3 (Crane)</td>
@@ -1304,39 +1419,20 @@
                                     <td class="p-3.5 text-xs">Player taps target container on board</td>
                                     <td class="p-3.5 text-xs">Gantry crane claw descends, grasps target container, lifts
                                         slightly while completing cargo fill/swap, then deposits down.</td>
-                                </tr>
-
-                                <!-- Group 6: UI / Screen Level Animations -->
-                                <tr
-                                    class="bg-slate-100/70 dark:bg-slate-800/80 font-semibold text-slate-900 dark:text-slate-100">
-                                    <td colspan="4"
-                                        class="p-3 text-xs tracking-wider uppercase text-slate-700 dark:text-slate-300">
-                                        <i class="fa-solid fa-display mr-1.5"></i> 6. UI, HUD & Feedback Animations
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Victory Banner</td>
-                                    <td
-                                        class="p-3.5 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
-                                        Anim_UI_VictoryFanfare</td>
-                                    <td class="p-3.5 text-xs">All containers completed</td>
-                                    <td class="p-3.5 text-xs">Win banner drops in with scale bounce, confetti burst, and
-                                        coin counter increment roll.</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Game Over Banner</td>
-                                    <td class="p-3.5 font-mono text-xs text-rose-600 dark:text-rose-400 font-bold">
-                                        Anim_UI_GameOverPrompt</td>
-                                    <td class="p-3.5 text-xs">Conveyor belt capacity full & slots locked</td>
-                                    <td class="p-3.5 text-xs">Screen slight camera shake, defeat dialog zooms in with
-                                        pulsing Revive button.</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3.5 font-medium">Speed Toggle Button</td>
-                                    <td class="p-3.5 font-mono text-xs text-amber-600 dark:text-amber-400 font-bold">
-                                        Anim_UI_SpeedToggleSwitch</td>
-                                    <td class="p-3.5 text-xs">Player taps 1x / 2x toggle button</td>
-                                    <td class="p-3.5 text-xs">Badge punch scale bounce with dynamic speed streak flash.
+                                    <td class="p-3.5">
+                                        <div class="w-44 space-y-1">
+                                            <div
+                                                class="w-full rounded-lg overflow-hidden bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center relative group">
+                                                <video class="w-full h-auto max-h-72 block object-contain" controls
+                                                    preload="metadata" playsinline muted loop>
+                                                    <source src="ref/demo.mp4" type="video/mp4">
+                                                    Your browser does not support video.
+                                                </video>
+                                            </div>
+                                            <span
+                                                class="text-[10px] font-mono text-slate-400 dark:text-slate-500 block truncate"
+                                                title="ref/demo.mp4">ref/demo.mp4</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
