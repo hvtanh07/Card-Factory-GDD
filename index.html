@@ -169,7 +169,8 @@
                         <li><a href="#object-animation"
                                 class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors"
                                 data-en="6. Object Set & Animation Spec"
-                                data-vi="6. Danh Mục Vật Thể & Animation Spec">6. Object Set & Animation Spec</a></li>
+                                data-vi="6. Danh Mục Vật Thể & Animation Spec">6.
+                                Object Set & Animation Spec</a></li>
                         <li><a href="#audio-haptics"
                                 class="toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors"
                                 data-en="7. SFX & Haptics Spec" data-vi="7. Âm Thanh & Rung Feedback">7. SFX & Haptics
@@ -363,9 +364,10 @@
                             class="p-3 bg-amber-100 dark:bg-amber-950/60 rounded-xl border border-amber-300 dark:border-amber-800 text-xs font-semibold text-amber-900 dark:text-amber-200 flex items-center gap-2">
                             <i class="fa-solid fa-bolt text-amber-600"></i>
                             <span
-                                data-en="REVIVE MECHANIC: Revive option triggers a FREE Repaint Booster to clear the sticking containers from the parking slots without losing life, and automatically triggers the Magnet Booster 3 times to remove 3 box items from the conveyor belt and relieve congestion!"
-                                data-vi="CƠ CHẾ HỒI SINH: Tùy chọn Hồi sinh sẽ kích hoạt miễn phí Booster Sơn Đổi Hàng để dọn container bị kẹt mà không mất mạng, đồng thời tự động kích hoạt 3 lần Booster Nam Châm để loại bỏ 3 hộp hàng trên băng chuyền và giảm kẹt hàng!">
-                                REVIVE MECHANIC: Revive option triggers a FREE Repaint Booster to clear the sticking containers from the parking slots without losing life, and automatically triggers the Magnet Booster 3 times to remove 3 box items from the conveyor belt to relieve congestion!
+                                data-en="REVIVE MECHANIC: Revive option triggers a FREE Repaint Booster to clear the sticking containers from the parking slots without losing life!"
+                                data-vi="CƠ CHẾ HỒI SINH: Tùy chọn Hồi sinh sẽ kích hoạt miễn phí Booster Sơn Đổi Hàng để dọn container bị kẹt mà không mất mạng!">
+                                REVIVE MECHANIC: Revive option triggers a FREE Repaint Booster to clear the sticking
+                                containers from the parking slots without losing life!
                             </span>
                         </div>
                     </div>
@@ -792,62 +794,65 @@
 
                 <div class="space-y-6">
 
-                    <!-- Booster 1: Quick Supply -->
+                    <!-- Booster 1: Repaint -->
                     <div
                         class="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
                         <div
                             class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">
                             <div class="flex items-center gap-3">
                                 <div
-                                    class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-amber-500/20">
-                                    📦⚡
+                                    class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-500 to-amber-500 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-amber-500/20">
+                                    🎨
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-slate-900 dark:text-white text-base"
-                                        data-en="Booster 1: Quick Supply (Extract Target Color Cargo)"
-                                        data-vi="Booster 1: Tiếp Ứng Nhanh (Quick Supply - Rút Hàng Mục Tiêu)">Booster 1: Quick Supply (Extract Target Color Cargo)</h3>
+                                        data-en="Booster 1: Repaint (Stack-to-Belt Swap)"
+                                        data-vi="Booster 1: Sơn Đổi Hàng (Repaint)">Booster 1: Repaint (Stack-to-Belt
+                                        Swap)</h3>
                                     <span class="text-xs text-slate-500 dark:text-slate-400"
-                                        data-en="Extracts 4 Matching Color Items to Feed Conveyor & Parking Slots"
-                                        data-vi="Rút 4 Món Hàng Cùng Màu Từ Dưới Chồng Lên Băng Chuyền">Extracts 4 Matching Color Items to Feed Conveyor & Parking Slots</span>
+                                        data-en="Swaps Stack Items to Fill All Active Parking Containers"
+                                        data-vi="Hoán Đổi Hàng Dưới Chồng Để Đóng Đầy Mọi Container Trong Ô Đỗ">Swaps
+                                        Stack Items to Fill All Active Parking Containers</span>
                                 </div>
                             </div>
                             <span
-                                class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200"
-                                data-en="Conveyor Cargo Supply" data-vi="Tiếp Ứng Hàng Băng Chuyền">
-                                Conveyor Cargo Supply
+                                class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200">
+                                Full Parking Slot Clear
                             </span>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700 dark:text-slate-300">
                             <div>
                                 <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1"
-                                    data-en="Target Color Selection Logic:"
-                                    data-vi="Quy Tắc Chọn Màu Mục Tiêu:">Target Color Selection Logic:</h5>
-                                <ul class="space-y-2 list-disc list-inside leading-relaxed">
-                                    <li data-en="The game randomly selects 1 colored container currently present in the Parking Slots."
-                                        data-vi="Game sẽ chọn ngẫu nhiên 1 hộp màu bất kỳ trong tất cả các hộp hiện đang có trên parking slot.">
-                                        The game randomly selects 1 colored container currently present in the Parking Slots.
-                                    </li>
-                                    <li data-en="If there are no colored containers currently in the parking slots, the game selects 1 random color present within the current level."
-                                        data-vi="Nếu không có hộp màu nào trên parking slot, game sẽ chọn 1 màu bất kỳ đang có trong level.">
-                                        If there are no colored containers currently in the parking slots, the game selects 1 random color present within the current level.
-                                    </li>
-                                </ul>
+                                    data-en="Mechanics & Swap Demand Calculation:"
+                                    data-vi="Cơ Chế & Tính Toán Số Lượng Đổi:">Mechanics & Swap Demand Calculation:</h5>
+                                <p data-en="Calculates the exact total missing item deficit across 3 random containers currently occupying the parking slots. It then locates matching colored items deep within the board stack below and executes a 1-to-1 exchange: mismatched items on the conveyor are swapped into the stack below, while the required matching items are brought directly onto the conveyor belt."
+                                    data-vi="Tự động tính toán chính xác tổng số lượng món hàng còn thiếu của TỐI ĐA 3 container đang nằm trong các ô đỗ. Sau đó, hệ thống tìm các món có màu tương ứng từ các thùng dưới chồng bàn cờ và thực hiện đổi 1-1: đưa hàng cản trở trên băng chuyền xuống dưới chồng và kéo đúng số lượng hàng cần thiết lên băng chuyền.">
+                                    Calculates the exact total missing item deficit across 3 random containers currently
+                                    occupying the parking slots. It then locates matching colored items deep within the
+                                    board stack below and executes a 1-to-1 exchange: mismatched items on the conveyor
+                                    are swapped into the stack below, while the required matching items are brought
+                                    directly onto the conveyor belt.
+                                </p>
                             </div>
                             <div>
                                 <h5 class="font-bold text-slate-900 dark:text-slate-100 mb-1"
-                                    data-en="Cargo Extraction & Conveyor Delivery:"
-                                    data-vi="Trích Xuất Hàng & Giải Cứu Băng Chuyền:">Cargo Extraction & Conveyor Delivery:</h5>
-                                <p data-en="Once the target color is determined, the game automatically pulls out 4 box items of that selected color from containers stacked below on the board and sends them up onto the conveyor belt track. This directly supplies the vital cards/boxes needed to match and clear containers or box items on the conveyor."
-                                    data-vi="Sau khi đã chọn được 1 màu, game sẽ rút ra 4 box item của màu đó từ những container đang chồng phía dưới để đưa lên conveyor. Booster này giúp người chơi nhanh chóng lấy được đúng các thẻ/kiện hàng màu cần thiết để đóng gói và clear box item trên băng chuyền.">
-                                    Once the target color is determined, the game automatically pulls out 4 box items of that selected color from containers stacked below on the board and sends them up onto the conveyor belt track. This directly supplies the vital cards/boxes needed to match and clear containers or box items on the conveyor.
+                                    data-en="Instant Gridlock Relief & Packing:"
+                                    data-vi="Hiệu Quả Đóng Gói & Giải Phóng Ô Đỗ:">Instant Gridlock Relief & Packing:
+                                </h5>
+                                <p data-en="Because the exact quantity and colors required to complete every parked container are placed onto the belt, all items immediately fly into their respective containers in rapid sequence. This completes and dispatches every parked container at once, freeing up all parking slots and clearing belt congestion in a single action."
+                                    data-vi="Vì số lượng và màu sắc hàng được đưa lên băng chuyền khớp 100% nhu cầu của các container đang đỗ, toàn bộ số hàng này sẽ lập tức hút vào container theo chuỗi liên hoàn. Nhờ đó, tất cả container trong ô đỗ được đóng nắp và xuất xưởng đồng loạt, giải phóng toàn bộ ô đỗ và dọn sạch nguy cơ kẹt bãi.">
+                                    Because the exact quantity and colors required to complete every parked container
+                                    are placed onto the belt, all items immediately fly into their respective containers
+                                    in rapid sequence. This completes and dispatches every parked container at once,
+                                    freeing up all parking slots and clearing belt congestion in a single action.
                                 </p>
                             </div>
                         </div>
 
                         <div
                             class="image-zone p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center">
-                            <img src="booster1.jpg" alt="Booster 1 Quick Supply Screenshot">
+                            <img src="booster1.jpg" alt="Booster 1 Repaint Screenshot">
                         </div>
                     </div>
 
@@ -1173,7 +1178,7 @@
                                 </tr>
                                 <tr>
                                     <td class="p-3.5 font-medium">Colored Container</td>
-                                    <td class="p-3.5 font-mono text-sky-600 dark:text-sky-400 font-bold text-xs">
+                                    <td class="p-3.5 font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">
                                         Anim_Container_BoxComplete</td>
                                     <td class="p-3.5 text-xs">All required color items matched (full capacity)</td>
                                     <td class="p-3.5 text-xs">Lid snaps shut, box then hover up and fly out of the
@@ -1372,11 +1377,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="p-3.5 font-medium">Booster 1 (Quick Supply)</td>
+                                    <td class="p-3.5 font-medium">Booster 1 (Repaint)</td>
                                     <td class="p-3.5 font-mono text-xs text-amber-600 dark:text-amber-400 font-bold">
-                                        Anim_Booster_QuickSupply</td>
-                                    <td class="p-3.5 text-xs">Player activates Quick Supply Booster</td>
-                                    <td class="p-3.5 text-xs">Extracts 4 matching items from containers stacked below, flying directly up onto the conveyor belt track.</td>
+                                        Anim_Booster_Repaint</td>
+                                    <td class="p-3.5 text-xs">Player activates Booster 1 / Revive</td>
+                                    <td class="p-3.5 text-xs">Items from the conveyor fly down the boxes below. While
+                                        items from the box below fly up to replace them</td>
                                     <td class="p-3.5">
                                         <div class="w-44 space-y-1">
                                             <div
@@ -1620,11 +1626,11 @@
                         <!-- Booster 1 Wood Vacuum Spec -->
                         <div
                             class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
-                            <h5 class="font-bold text-slate-900 dark:text-white text-sm" data-en="Quick Supply Booster Icon"
-                                data-vi="Icon Booster Tiếp Ứng Nhanh">Quick Supply Booster Icon</h5>
+                            <h5 class="font-bold text-slate-900 dark:text-white text-sm" data-en="Wood Booster Icon"
+                                data-vi="Icon Booster Hút Gỗ">Wood Booster Icon</h5>
                             <div
                                 class="image-zone p-2 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/40 text-center">
-                                <img src="booster1cc.png" alt="Quick Supply Booster Icon Spec">
+                                <img src="booster1cc.png" alt="Wood Container Booster Icon Spec">
                             </div>
                         </div>
 
@@ -1854,8 +1860,8 @@
                                     <i class="fa-solid fa-check text-emerald-500 mt-1 flex-shrink-0"></i>
                                     <div>
                                         <strong class="text-slate-900 dark:text-slate-100" data-en="Auto-Refill Trigger:" data-vi="Kích Hoạt Tự Động Hồi:">Auto-Refill Trigger:</strong>
-                                        <span data-en="Whenever current lives &lt; 5, an internal countdown timer initiates immediately."
-                                            data-vi="Bất cứ khi nào số mạng hiện tại &lt; 5, đồng hồ đếm ngược tự động bắt đầu chạy.">Whenever current lives &lt; 5, an internal countdown timer initiates immediately.</span>
+                                        <span data-en="Whenever current lives < 5, an internal countdown timer initiates immediately."
+                                            data-vi="Bất cứ khi nào số mạng hiện tại < 5, đồng hồ đếm ngược tự động bắt đầu chạy.">Whenever current lives &lt; 5, an internal countdown timer initiates immediately.</span>
                                     </div>
                                 </li>
                                 <li class="flex items-start gap-2">
@@ -1884,25 +1890,18 @@
                             <div class="text-emerald-600 dark:text-emerald-400 font-bold">Gained = floor(Elapsed / 1200)</div>
                             <div class="text-slate-700 dark:text-slate-300">Lives = min(5, CurrentLives + Gained)</div>
                         </div>
-
-                        <!-- Booster 1 Config -->
-                        <div
-                            class="p-3 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 space-y-1">
-                            <div class="font-bold text-amber-900 dark:text-amber-300">Booster 1: Quick Supply (Paper Box):</div>
-                            <div class="flex justify-between font-mono text-xs">
-                                <span>reward_per_purchase:</span>
-                                <span class="font-bold text-amber-700 dark:text-amber-400">3 items</span>
-                            </div>
-                            <div class="flex justify-between font-mono text-xs">
-                                <span>coin_cost:</span>
-                                <span class="font-bold text-amber-700 dark:text-amber-400">80 coins</span>
-                            </div>
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300">
-                                    -1 Per Fail/Restart
-                        </div>
                     </div>
 
                     <!-- Sub-Card 2: Deplete Logic -->
+                    <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between space-y-5">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-sm">
+                                        <i class="fa-solid fa-heart-crack"></i>
+                                    </span>
+                                    <h4 class="font-bold text-slate-900 dark:text-white text-base"
+                                        data-en="Life Deplete Logic" data-vi="Quy Tắc Trừ Mạng (Depletion)">Life Deplete Logic</h4>
                                 </div>
                                 <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300">
                                     -1 Per Fail/Restart
